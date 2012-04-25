@@ -1,0 +1,10 @@
+# Ignore programs and output.
+ann
+*.out
+
+# Ignore Netbeans' bloated junk.
+/build
+/dist
+/nbproject
+Makefile_netbeans
+.dep.inc
