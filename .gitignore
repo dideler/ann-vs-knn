@@ -10,3 +10,6 @@
 *.lai
 *.la
 *.a
+
+# Feature Selection Toolbox
+/FST3
