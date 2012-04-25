@@ -1,5 +1,8 @@
 This version is specially compiled to run on the lab computers in J-block.
 
+README.txt
+  This masterpiece of a document.
+
 Makefile
   Used to build the program.
 
@@ -8,6 +11,9 @@ compile.sh (deprecated - do not use)
 
 run.sh
   Used to run the program. View script for more info.
+
+*.conf
+  Configuration files for the classifiers.
 
 TODO: example compilation and execution
 TODO: use attributes 4, 5, 7, 8, 9, 12 (chosen with a FS technique)
