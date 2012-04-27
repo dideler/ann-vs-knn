@@ -21,11 +21,13 @@ echo "Output filename for network error = $ERROR"
 echo "Output filename for network accuracy = $ACCURACY"
 read -p "Are these values correct? (y/n) " -n 1
 echo
+echo
 
 function run()
 {
   # Experiment 1 (steel dataset)
-  ./ann -c ann.conf -d ./data/Faults.dat -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
+  #./ann -c steel.conf -d ./data/faults-subset.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
+  ./ann -c steel.conf -d ./data/faults.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
 
   # Experiment 2 (digit dataset)
   #./ann -c digits.conf -d digits.dat -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p

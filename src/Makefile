@@ -20,21 +20,24 @@ all: ann knn clean
 ann: $(OBJS)
 	$(CC) main.cpp $(LFLAGS) $(OBJS) -o ann
 
+ann_optimized: $(OBJS)
+	$(CC) main.cpp $(LFLAGS) $(OPTIMIZE) $(OBJS) -o ann
+
 knn:
 	@echo TODO
 
 Neurode.o: Neurode.h Neurode.cpp connections.h Layer.h NeuralNet.h
-	$(CC) $(CFLAGS) Neurode.cpp
+	$(CC) $(CFLAGS) $(OPTIMIZE) Neurode.cpp
 
 Layer.o: Layer.h Layer.cpp Neurode.h
-	$(CC) $(CFLAGS) Layer.cpp
+	$(CC) $(CFLAGS) $(OPTIMIZE) Layer.cpp
 
 NeuralNet.o: NeuralNet.h NeuralNet.cpp Layer.h Neurode.h
-	$(CC) $(CFLAGS) NeuralNet.cpp
+	$(CC) $(CFLAGS) $(OPTIMIZE) NeuralNet.cpp
 
 clean:
 	\rm *.o
 
 # Also remove the executables and the output files.
 cleanest: clean
-	\rm ann knn *.dat
+	\rm ann knn *.out

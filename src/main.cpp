@@ -39,11 +39,12 @@ struct UserParameters
   double learning_rate;
   double momentum;
   double max_error;
+  int num_instances;
   int num_epochs;
-  int num_input_nodes;
+  int num_features;  // Also the number of input nodes.
   int num_hidden_nodes;
-  int num_output_nodes;
-  int training_ratio;  // Training portion of training-to-testing ratio.
+  int num_classes;  // Also the number of output nodes.
+  int training_ratio;
   int seed;
   string learning_rule;
   string hidden_activation_function;
@@ -59,9 +60,9 @@ struct UserParameters
     momentum = 0.05;
     max_error = 0.1;
     num_epochs = 800;
-    num_input_nodes = 6;
-    num_hidden_nodes = 20;
-    num_output_nodes = 7;
+    num_features = 27;
+    num_hidden_nodes = 50;
+    num_classes = 7;
     training_ratio = 80;
     seed = time(NULL);
     learning_rule = "backprop";
@@ -113,11 +114,11 @@ void runNeuralNet(string network_error_file, string accuracy_file,
                   vector< vector<float> > testing_set)
 {
   //  Construct the Artificial Neural Net and initialize weighted connections.
-  NeuralNet* ann = new NeuralNet(params.num_input_nodes,
+  NeuralNet* ann = new NeuralNet(params.num_features,
                                  params.num_hidden_nodes,
-                                 params.num_output_nodes);
+                                 params.num_classes);
 
-  ann->initWeights(params.num_input_nodes,
+  ann->initWeights(params.num_features,
                    params.num_hidden_nodes,
                    params.lower_weight_range,
                    params.upper_weight_range);
@@ -158,21 +159,21 @@ void readUserParameters(string file_name)
     for (int i = 1; file_stream.good();)
     {
       file_stream.getline(line, 256);
-      if (line[0] != '#' && line[0] != 0)  // If not a comment or empty line.
+      if (line[0] != '#' && line[0] != '\0')  // If not a comment or empty line.
       {
         switch (i)  // Extract all user parameters, one at a time.
         {
           case 1:  // Number of input units.
-            params.num_input_nodes = atoi(line);
-            cout << "Number of inputs:\t\t" << params.num_input_nodes << "\n";
+            params.num_features = atoi(line);
+            cout << "Number of inputs:\t\t" << params.num_features << "\n";
             break;
           case 2:  // Number of hidden units.
             params.num_hidden_nodes = atoi(line);
             cout << "Number of hiddens:\t\t" << params.num_hidden_nodes << "\n";
             break;
           case 3:  // Number of output units.
-            params.num_output_nodes = atoi(line);
-            cout << "Number of outputs:\t\t" << params.num_output_nodes << "\n";
+            params.num_classes = atoi(line);
+            cout << "Number of outputs:\t\t" << params.num_classes << "\n";
             break;
           case 4:  // Learning rule.
             params.learning_rule = line;
@@ -259,17 +260,17 @@ void normalizeData(vector< vector<float> >& db_table)
   // have outliers. If your data contains several outliers, use standardization.
   
   vector<float> min_values, max_values;
-  for (int i = 0; i < 27; ++i)  // Note: hardcoded to work for this dataset.
+  for (int i = 0; i < params.num_features; ++i)
   {
     min_values.push_back(numeric_limits<float>::max());
     max_values.push_back(numeric_limits<float>::min());
   }
   
-  // Find the min/max values for each attribute.
-  for (int i = 0; i < static_cast<int>(db_table.size()); ++i)
+  // Search all instances to find the min and max values for each attribute.
+  for (int i = 0; i < params.num_instances; ++i)
   {
-    // Ignore the class data at the end of each instance.
-    for (int j = 0; j < static_cast<int>(db_table[i].size()) - 7; ++j)
+    // Note: ignores the class data at the end of each instance.
+    for (int j = 0; j < params.num_features; ++j)
     { 
       if (db_table[i][j] < min_values[j])  // Update min value for attribute.
         min_values[j] = db_table[i][j];
@@ -279,9 +280,9 @@ void normalizeData(vector< vector<float> >& db_table)
   }
   
   // Scale each attribute value:  x = (x - x_min) / (x_max - x_min)
-  for (int i = 0; i < static_cast<int>(db_table.size()); ++i)
+  for (int i = 0; i < params.num_instances; ++i)
   {
-    for (int j = 0; j < static_cast<int>(db_table[i].size()) - 7; ++j)
+    for (int j = 0; j < params.num_features; ++j)
     {
       db_table[i][j] = (db_table[i][j] - min_values[j]) /
                        (max_values[j] - min_values[j]);
@@ -298,12 +299,10 @@ void normalizeData(vector< vector<float> >& db_table)
  * @param db_table        Database table with all the example cases.
  * @param training_set    Training set to be populated with data.
  * @param testing_set     Testing set to be populated with data.
- * @param num_classes     Number of possible classifications in the data.
  */
 void prepareData(const vector< vector<float> >& db_table,
                  vector< vector<float> >& training_set,
-                 vector< vector<float> >& testing_set,
-                 const int num_classes)
+                 vector< vector<float> >& testing_set)
 {
   // Assuming the data is ordered by classification type, the data can be
   // partitioned into sets of multiple types. Those sets can then be shuffled.
@@ -317,73 +316,46 @@ void prepareData(const vector< vector<float> >& db_table,
   deque< vector<float> > cases; // The cases for every classification type.
 
   // Make room for all the classes within the parted table.
-  for (int i = 0; i < num_classes; ++i)
+  for (int i = 0; i < params.num_classes; ++i)
     parted_db_table.push_back(cases);
 
   // Insert each case into the appropriate partition based on its type.
-  int size = db_table[0].size();  
-  int num_case;
-  for (num_case = 0; num_case < static_cast<int>(db_table.size()); ++num_case)
+  int example;
+  for (example = 0; example < params.num_instances; ++example)
   {
-    // Get the classification of the current instance.
+    // Get the classification of the current instance. Classification data for
+    // each example is located after all attribute values.
     int classification;
-    for (int i = 7, j = 1; i > 0; --i, ++j)  // Last 7 values identify class.
+    for (int i = 0; i < params.num_classes; ++i)
     {
-      if (db_table[num_case][size-i] == 1)
+      if (db_table[example][params.num_features + i] == 1)
       {
-        classification = j;
+        classification = i + 1;
         break;
       }
     }
-    // Push it in the appropriate partition.
-    switch (classification)
-    {
-      case 1:
-        parted_db_table.at(0).push_back(db_table.at(num_case));
-        break;
-      case 2:
-        parted_db_table.at(1).push_back(db_table.at(num_case));
-        break;
-      case 3:
-        parted_db_table.at(2).push_back(db_table.at(num_case));
-        break;
-      case 4:
-        parted_db_table.at(3).push_back(db_table.at(num_case));
-        break;
-      case 5:
-        parted_db_table.at(4).push_back(db_table.at(num_case));
-        break;
-      case 6:
-        parted_db_table.at(5).push_back(db_table.at(num_case));
-        break;
-      case 7:
-        parted_db_table.at(6).push_back(db_table.at(num_case));
-        break;
-      default:
-        cerr << "(!) Only 7 classification types expected!\n";
-        abort();
-    }
+    // Push the instance in the appropriate partition.
+    parted_db_table.at(classification - 1).push_back(db_table.at(example));
   }
 
   // Shuffle every partition.
-  for (int i = 0; i < static_cast<int>(parted_db_table.size()); ++i)
+  for (int i = 0; i < params.num_classes; ++i)
     random_shuffle(parted_db_table.at(i).begin(), parted_db_table.at(i).end());
 
   // Calculate how many cases (out of the total) each data set gets.
-  int num_training_cases = num_case * (params.training_ratio / 100.0);
-  int num_testing_cases = num_case - num_training_cases;
+  int num_training_cases = example * (params.training_ratio / 100.0);
+  int num_testing_cases = example - num_training_cases;
   cout << "Training cases: " << num_training_cases << "\nTesting cases: "
        << num_testing_cases << "\n";
 
-  // Fill the training set with an equal amount of cases from each partition.
-  // Grabs the first case from each partition and then pops it to remove it.
+  // Fills the training set with an equal amount of cases from each partition,
+  // by grabbing the first case from each partition and then popping it.
   // Popping used cases ensures they won't be used in the testing set.
   for (int count = 0; count < num_training_cases;)
   {
-    for (int i = 0; i < static_cast<int>(parted_db_table.size())
-         && count < num_training_cases; ++i)
+    for (int i = 0; i < params.num_classes && count < num_training_cases; ++i)
     {
-      if (!parted_db_table.at(i).empty()) // Check if any instances left.
+      if (!parted_db_table.at(i).empty()) // Add instance if any left.
       {
         ++count;
         training_set.push_back(parted_db_table.at(i).front());
@@ -393,9 +365,10 @@ void prepareData(const vector< vector<float> >& db_table,
   }
 
   // Fill the testing set with the leftover cases in each of the partitions.
-  for (int i = 0; i < static_cast<int>(parted_db_table.size()); ++i)
+  // Order doesn't matter for testing.
+  for (int i = 0; i < params.num_classes; ++i)
   {
-    while (!parted_db_table.at(i).empty()) // Order doesn't matter for testing.
+    while (!parted_db_table.at(i).empty()) 
     {
       testing_set.push_back(parted_db_table.at(i).front());
       parted_db_table.at(i).pop_front();
@@ -408,7 +381,6 @@ void prepareData(const vector< vector<float> >& db_table,
  * Reads in the data from a file and stores it in the table.
  * Expects data to have one instance per line and attribute values separated
  * by whitespace (e.g. tab).
- * Also does a linear search to find the min and max values per attribute.
  *
  * @param file      File that contains the dataset.
  * @param db_table	Database that will hold all cases and their input patterns
@@ -429,12 +401,9 @@ void readData(string file, vector< vector<float> >& db_table)
       float attribute;
       istringstream iss(line, istringstream::in);
       while (iss >> attribute)
-      {
-        //cout << attribute << " ";
         db_table.at(line_num).push_back(attribute);
-      }
-      //cout << endl;
     }
+    params.num_instances = static_cast<int>(db_table.size());
     file_stream.close();
   }
   else
@@ -513,14 +482,13 @@ int main(int argc, char** argv)
     printf("Using training/testing ratio %d : %d\n", params.training_ratio,
            100 - params.training_ratio);
 
+    if (config_file != "") readUserParameters(config_file);
     // Tables to store the complete database, training set, and testing set.
     vector< vector<float> > db_table, training_set, testing_set;
     readData(dataset_file, db_table);
-    cout << "# instances = " << db_table.size() << "\n";
-    cout << "# attributes = " << db_table[0].size() << "\n";
+    cout << "Number of instances = " << params.num_instances << "\n";
     normalizeData(db_table);
-    prepareData(db_table, training_set, testing_set, 7);
-    if (config_file != "") readUserParameters(config_file);
+    prepareData(db_table, training_set, testing_set);
     runNeuralNet(error_file, accuracy_file, training_set, testing_set);
   }
   catch (exception& ex) // TODO: improve exception handling.

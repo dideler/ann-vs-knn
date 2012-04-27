@@ -16,8 +16,6 @@ run.sh
   Configuration files for the classifiers.
 
 TODO: example compilation and execution
-TODO: use attributes 4, 5, 7, 8, 9, 12 (chosen with a FS technique)
---
 
 Program arguments:
 

@@ -158,9 +158,8 @@ void NeuralNet::train(vector< vector<float> > training_set,
     for (int example = 0; example < total_cases; ++example)
     {
       // Present the inputs to the input layer nodes.
-      // Note: size-7 because last 7 values are classification data.
-      int size = training_set[example].size();
-      for (int attribute = 0; attribute < size-7; ++attribute)
+      int size = input_layer_->get_size();
+      for (int attribute = 0; attribute < size; ++attribute)
       {
         double input = training_set[example][attribute];
         input_layer_->nodes_[attribute].set_input(input);
@@ -171,14 +170,15 @@ void NeuralNet::train(vector< vector<float> > training_set,
 
       // Backpropagate the error and adjust the weights.
       int target;
-      for (int i = 7, j = 1; i > 0; --i, ++j)  // Last 7 values identify class.
+      for (int i = 0; i < output_layer_->get_size(); ++i)  // Get the target.
       {
-        if (training_set[example][size-i] == 1)
+        if (training_set[example][size + i] == 1)
         {
-          target = j;
+          target = i + 1;
           break;
         }
       }
+
       backprop(hidden_activation_function, target, learning_rate, momentum);
 
       if (get_result() == target)
@@ -234,9 +234,8 @@ void NeuralNet::test(vector< vector<float> > testing_set,
     for (int example = 0; example < total_cases; ++example)
     {
       // Present the inputs to the input layer nodes.
-      // Note: size-7 because last 7 values are classification data.
-      int size = testing_set[example].size();
-      for (int attribute = 0; attribute < size-7; ++attribute)
+      int size = input_layer_->get_size();
+      for (int attribute = 0; attribute < size; ++attribute)
       {
         double input = testing_set[example][attribute];
         input_layer_->nodes_[attribute].set_input(input);
@@ -247,11 +246,11 @@ void NeuralNet::test(vector< vector<float> > testing_set,
 
       // Get the classification target.
       int target;
-      for (int i = 7, j = 1; i > 0; --i, ++j)  // Last 7 values identify class.
+      for (int i = 0; i < output_layer_->get_size(); ++i)  // Get the target.
       {
-        if (testing_set[example][size-i] == 1)
+        if (testing_set[example][size + i] == 1)
         {
-          target = j;
+          target = i + 1;
           break;
         }
       }

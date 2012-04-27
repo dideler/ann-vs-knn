@@ -128,7 +128,7 @@ double Neurode::tanhFunction(const double x) { return tanh(x); }
  */
 void Neurode::computeOutputError(const int target)
 {
-//  error_ = target - output_;  // Simple error, uses no derivative of sigmoid.
+  //error_ = target - output_;  // Simple error, uses no derivative of sigmoid.
   error_ = output_ * (1 - output_) * (target - output_);
 }
 

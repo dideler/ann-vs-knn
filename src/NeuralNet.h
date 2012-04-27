@@ -27,10 +27,12 @@ class NeuralNet
                    const int num_connections_hidden_output,
                    const double kLowerRange,
                    const double kUpperRange);
-  void train(vector< vector<float> > training_set, const int num_epochs,
+  void train(vector< vector<float> > training_set,
+             const int num_epochs,
              const char* hidden_activation_function,
              const char* output_activation_function,
-             const double learning_rate, const double momentum,
+             const double learning_rate,
+             const double momentum,
              const double max_error);
   void test(vector< vector<float> > testing_set,
             const char* hidden_activation_function,
@@ -41,8 +43,10 @@ class NeuralNet
  private:
   void forwardprop(const char* hidden_activation_function,
                    const char* output_activation_function);
-  void backprop(const char* hidden_activation_function, const int target,
-                const double learning_rate, const double momentum);
+  void backprop(const char* hidden_activation_function,
+                const int target,
+                const double learning_rate,
+                const double momentum);
   void resetDeltaWeights(void);
   int get_result(void) const;
   double get_output(int output_node) const;
