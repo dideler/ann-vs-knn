@@ -41,6 +41,13 @@ class NeuralNet
   double* get_all_hit_percentage(void) const;
 
  private:
+  void loadPatterns(const vector< vector<float> > sample_set,
+                    const char* hidden_activation_function,
+                    const char* output_activation_function,
+                    const double learning_rate,
+                    const double momentum,
+                    const bool train,
+                    const int epoch_num);
   void forwardprop(const char* hidden_activation_function,
                    const char* output_activation_function);
   void backprop(const char* hidden_activation_function,

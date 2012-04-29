@@ -137,8 +137,10 @@ void runNeuralNet(string network_error_file, string accuracy_file,
             params.output_activation_function.c_str());
   
   if (params.plot)  // Write plot data if flag is set.
+  {
     writePlotData(ann->get_all_hit_percentage(), accuracy_file);
-  writePlotData(ann->get_all_network_error(), network_error_file);
+    writePlotData(ann->get_all_network_error(), network_error_file);
+  }
   
   ann->~NeuralNet();  // Le delete.
 }

@@ -114,22 +114,80 @@ void NeuralNet::resetDeltaWeights()
 }
 
 /**
+ * Performs one epoch (i.e. for each example, loads all input patterns and
+ * propagates them). Backpropagation is performed when training.
+ * This function is used for training and testing the ANN.
+ *
+ * @param sample_set  The dataset used for training or testing.
+ * @param train  Performs backprop and calculates network accuracy if true.
+ */
+void NeuralNet::loadPatterns(const vector< vector<float> > sample_set,
+                             const char* hidden_activation_function,
+                             const char* output_activation_function,
+                             const double learning_rate,
+                             const double momentum,
+                             const bool train,
+                             const int epoch_num)
+{
+  // Load each pattern into neural net, one at a time.
+  int total_hits = 0;
+  int total_cases = sample_set.size();
+  double network_error = 0.0;
+  for (int example = 0; example < total_cases; ++example)
+  {
+    // Present the inputs to the input layer nodes.
+    int size = input_layer_->get_size();
+    for (int attribute = 0; attribute < size; ++attribute)
+    {
+      double input = sample_set[example][attribute];
+      input_layer_->nodes_[attribute].set_input(input);
+    }
+
+    // Forwardpropagate the input pattern.
+    forwardprop(hidden_activation_function, output_activation_function);
+
+    // Get the classification target.
+    int target;
+    for (int i = 0; i < output_layer_->get_size(); ++i) 
+    {
+      if (sample_set[example][size + i] == 1)
+      {
+        target = i + 1;
+        break;
+      }
+    }
+
+    // Backpropagate the error (adjusts the weights).
+    if (train)
+    {
+      backprop(hidden_activation_function, target, learning_rate, momentum);
+      network_error += get_network_error();  // Squared network error.
+    }
+
+    if (get_result() == target)
+      ++total_hits;
+
+//      cout << "Expected outcome: " << target << "\n"
+//              "Actual outcome: " << get_result() << "\n\n";
+//      for (int m = 0; m < output_layer_->get_size(); ++m)
+//        cout << "node " << m+1 << ": " << get_output(m)
+//             << "\terror: " << get_output_error(m) << "\n";
+//      cout << "\n";
+  }
+  
+  float percentage = (static_cast<float>(total_hits) / total_cases) * 100;
+  if (train)
+  {
+    all_hit_percentage_[epoch_num] = percentage;
+    all_network_error_[epoch_num] = network_error;
+    cout << "epoch: " << epoch_num + 1 << "  error: " << network_error << "\n";
+  }
+  cout << "Correctly classified " << total_hits << " out of " << total_cases
+       << " = " << percentage << "%\n\n";
+}
+
+/**
  * Trains the neural network on the training set (i.e. all training cases).
- * Algorithm in pseudo code:
- * create training set out of training files (done in prepareData method)
- * for every epoch {  // epoch is a full training of all patterns
- *   shuffle all training cases in training set
- *   for every training case {
- *     present input pattern to input nodes  // & keep track of desired output
- *     forwardprop
- *     backprop
- *     if actual output matches desired output
- *       increase hit count
- *     update the network error
- *   }
- *   calculate prediction accuracy  // using the number of total hits
- *   reset change in network weights  // new epoch requires refreshing the ANN
- * }
  *
  * @param training_set  The set of data that the Neural Net will train on
  * @param num_epochs    Number of epochs (i.e. learning cycles)
@@ -143,68 +201,24 @@ void NeuralNet::train(vector< vector<float> > training_set,
 {
   all_hit_percentage_ = new double[num_epochs];
   all_network_error_ = new double[num_epochs];
+  double network_error;
 
   // Reminder: one epoch is equal to training the NN on the entire training set.
   // Train the network for every epoch.
   for (int epoch = 0; epoch < num_epochs; ++epoch)
   {
-    // Shuffle all training cases. TODO: remove, not required.
+    // Shuffle all training cases.
     std::random_shuffle(training_set.begin(), training_set.end());
 
-    // Load each pattern into neural net, one at a time.
-    int total_hits = 0;
-    int total_cases = training_set.size();
-    double current_error = 0.0;  // Current network error.
-    for (int example = 0; example < total_cases; ++example)
-    {
-      // Present the inputs to the input layer nodes.
-      int size = input_layer_->get_size();
-      for (int attribute = 0; attribute < size; ++attribute)
-      {
-        double input = training_set[example][attribute];
-        input_layer_->nodes_[attribute].set_input(input);
-      }
+    // Load patterns, propagate them, then back-propagate them.
+    loadPatterns(training_set, hidden_activation_function,
+                 output_activation_function, learning_rate, momentum, true,
+                 epoch);
 
-      // Forwardpropagate the input pattern.
-      forwardprop(hidden_activation_function, output_activation_function);
-
-      // Backpropagate the error and adjust the weights.
-      int target;
-      for (int i = 0; i < output_layer_->get_size(); ++i)  // Get the target.
-      {
-        if (training_set[example][size + i] == 1)
-        {
-          target = i + 1;
-          break;
-        }
-      }
-
-      backprop(hidden_activation_function, target, learning_rate, momentum);
-
-      if (get_result() == target)
-        ++total_hits;
-
-//      cout << "Expected outcome: " << target << "\n"
-//              "Actual outcome: " << get_result() << "\n\n";
-//      for (int m = 0; m < output_layer_->get_size(); ++m)
-//        cout << "node " << m+1 << ": " << get_output(m)
-//             << "\terror: " << get_output_error(m) << "\n";
-//      cout << "\n";
-
-      current_error += get_network_error();
-    }
-    float percentage = (static_cast<float>(total_hits) / total_cases) * 100;
-    cout << "Percentage classified correctly: " << total_hits << " out of "
-         << total_cases << " = " << percentage << "%\n\n";
-    all_hit_percentage_[epoch] = percentage;
-
-    cout << "epoch: " << epoch + 1 << "  error: " << current_error << "\n";
-    all_network_error_[epoch] = current_error;  // Save the error.
-
-    if (current_error < max_error)  // Terminate if acceptable error reached.
+    if (all_network_error_[epoch] <= max_error)
       break;
 
-    resetDeltaWeights();  // Starting a new epoch, reset delta weights.
+    resetDeltaWeights();
   }
 }
 
@@ -212,66 +226,14 @@ void NeuralNet::train(vector< vector<float> > training_set,
  * Tests the NN by presenting test cases to the NN which haven't trained on.
  * The percentage of error indicates how well the NN performs.
  *
- * create testing set out of testing files
- * shuffle all testing cases in testing set
- * for every testing case {
- *   present input pattern to input nodes
- *   forward propagate the pattern
- *   if actual output matches desired output
- *     increase hit count
- * }
- * calculate prediction accuracy
- *
  * @param testing_set   The set of data that the network will be tested on
  */
 void NeuralNet::test(vector< vector<float> > testing_set,
                      const char* hidden_activation_function,
                      const char* output_activation_function)
 {
-    // Load each pattern into neural net, one at a time.
-    int total_hits = 0;
-    int total_cases = testing_set.size();
-    for (int example = 0; example < total_cases; ++example)
-    {
-      // Present the inputs to the input layer nodes.
-      int size = input_layer_->get_size();
-      for (int attribute = 0; attribute < size; ++attribute)
-      {
-        double input = testing_set[example][attribute];
-        input_layer_->nodes_[attribute].set_input(input);
-      }
-
-      // Forwardpropagate the input pattern.
-      forwardprop(hidden_activation_function, output_activation_function);
-
-      // Get the classification target.
-      int target;
-      for (int i = 0; i < output_layer_->get_size(); ++i)  // Get the target.
-      {
-        if (testing_set[example][size + i] == 1)
-        {
-          target = i + 1;
-          break;
-        }
-      }
-
-      if (get_result() == target)
-        ++total_hits;
-
-//      cout << "Expected outcome: " << target << "\n"
-//              "Actual outcome: " << get_result() << "\n\n";
-//      for (int m = 0; m < output_layer_->get_size(); ++m)
-//        cout << "node " << m+1 << ": " << get_output(m)
-//             << "\terror: " << get_output_error(m) << "\n";
-//      cout << "\n";
-    }
-
-  float percentage = (static_cast<float>(total_hits) / total_cases) * 100;
-  cout << "Percentage classified correctly: " << total_hits << " out of "
-       << total_cases << " = " << percentage << "%\n\n";
-
-  // Write percentage of hits per epoch to file.
-//  if (params.plot) writePlotData(hit_percentage);
+  loadPatterns(testing_set, hidden_activation_function,
+               output_activation_function, 0.0, 0.0, false, 0);
 }
 
 /**
@@ -321,12 +283,13 @@ double NeuralNet::get_output_error(int output_node) const
 }
 
 /**
- * Returns the error of the network.
+ * Returns the squared error of the network.
  * The error of the network is calculated by adding up the squared values of the
  * output errors of each pattern (for one epoch). Other error functions that can
  * be used are the mean squared error and the root mean squared error.
  *
- * @return The network's error
+ * @return The network's squared error
+ * @TODO calculate mean squared error, root mean squared error, or mean error?
  */
 double NeuralNet::get_network_error() const
 {
