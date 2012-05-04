@@ -147,7 +147,8 @@ void NeuralNet::loadPatterns(const vector< vector<float> > sample_set,
     forwardprop(hidden_activation_function, output_activation_function);
 
     // Get the classification target.
-    int target;
+    int target = sample_set[example][size];
+#if 0
     for (int i = 0; i < output_layer_->get_size(); ++i) 
     {
       if (sample_set[example][size + i] == 1)
@@ -156,6 +157,7 @@ void NeuralNet::loadPatterns(const vector< vector<float> > sample_set,
         break;
       }
     }
+#endif
 
     // Backpropagate the error (adjusts the weights).
     if (train)
@@ -201,7 +203,6 @@ void NeuralNet::train(vector< vector<float> > training_set,
 {
   all_hit_percentage_ = new double[num_epochs];
   all_network_error_ = new double[num_epochs];
-  double network_error;
 
   // Reminder: one epoch is equal to training the NN on the entire training set.
   // Train the network for every epoch.
