@@ -1,5 +1,5 @@
 # Ignore programs and output.
-ann
+ann-vs-knn
 *.out
 
 # Ignore Netbeans' bloated junk.
