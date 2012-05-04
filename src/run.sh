@@ -26,11 +26,11 @@ echo
 function run()
 {
   # Experiment 1 (steel dataset)
-  ./ann -c steel.conf -d ./data/faults.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
-  ./ann -c steel-subset.conf -d ./data/faults-subset.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
+  ./ann-vs-knn -c steel.conf -d ./data/faults-simple.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
+  ./ann-vs-knn -c steel-subset.conf -d ./data/faults-subset-simple.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
 
   # Experiment 2 (digit dataset)
-  #./ann -c digits.conf -d ./data/digits.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
+  #./ann-vs-knn -c digits.conf -d ./data/digits-simple.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
 }
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
