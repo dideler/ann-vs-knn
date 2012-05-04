@@ -25,7 +25,7 @@ def parse_csv(input, delim=','):
 def simplify_class():
     """Makes the last digit in each example the expected outcome."""
     ip = open('faults.data', 'r')
-    op = open('faults-simple1.data', 'w')
+    op = open('faults-simple.data', 'w')
     lines = [line.strip() for line in ip.readlines()]
     
     for line in lines:
@@ -46,9 +46,9 @@ def simplify_class():
     
     ip.close()
     op.close()
-    
+ 
     ip = open('digits.data', 'r')
-    op = open('digits-simple1.data', 'w')
+    op = open('digits-simple.data', 'w')
     lines = [line.strip() for line in ip.readlines()]
     
     for line in lines:
@@ -75,3 +75,4 @@ def simplify_class():
 
     ip.close()
     op.close()
+
