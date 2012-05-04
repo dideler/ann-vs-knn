@@ -1,30 +1,28 @@
-# Artificial Neural Network v0.1 Makefile
+# Artificial Neural Network vs K-Nearest Neighbour v1.0 Makefile
 # 
 # (C) 2012 Dennis Ideler <ideler.dennis at gmail>
 # 
 # www.cs.umd.edu/class/fall2002/cmsc214/Tutorial/makefile.html
 #
-# TODO: remove debug from cflags and include separately.
-# 			allows for optimized and debugged versions.
+# TODO: remove debug from cflags, make it its own variable.
 
 #CC = gcc
 CC = g++
-OBJS = Neurode.o Layer.o NeuralNet.o
+OBJS = Neurode.o Layer.o NeuralNet.o NearestNeighbour.o
 DEBUG = -g
 OPTIMIZE = -O3
 CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
-all: ann knn clean
+all: ann-vs-knn clean
 
-ann: $(OBJS)
-	$(CC) main.cpp $(LFLAGS) $(OBJS) -o ann
+all-optimized: ann-vs-knn-optimized clean
 
-ann_optimized: $(OBJS)
-	$(CC) main.cpp $(LFLAGS) $(OPTIMIZE) $(OBJS) -o ann
+ann-vs-knn: $(OBJS)
+	$(CC) main.cpp $(LFLAGS) $(OBJS) -o ann-vs-knn
 
-knn:
-	@echo TODO
+ann-vs-knn-optimized: $(OBJS)
+	$(CC) main.cpp $(LFLAGS) $(OPTIMIZE) $(OBJS) -o ann-vs-knn
 
 Neurode.o: Neurode.h Neurode.cpp connections.h Layer.h NeuralNet.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) Neurode.cpp
@@ -35,9 +33,12 @@ Layer.o: Layer.h Layer.cpp Neurode.h
 NeuralNet.o: NeuralNet.h NeuralNet.cpp Layer.h Neurode.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) NeuralNet.cpp
 
+NearestNeighbour.o: NearestNeighbour.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) NearestNeighbour.cpp
+
 clean:
 	\rm *.o
 
 # Also remove the executables and the output files.
 cleanest: clean
-	\rm ann knn *.out
+	\rm ann-vs-knn *.out
