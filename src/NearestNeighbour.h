@@ -18,27 +18,33 @@
 #include <vector>                                                                    
 using std::vector;
 
+struct neighbour;
+
 class NearestNeighbour
 {
  public:
   NearestNeighbour(const int k, const int num_attributes);
   ~NearestNeighbour();
   void learn(const vector< vector<float> > training_set,
-             const vector< vector<float> > testing_set);
+             const vector< vector<float> > testing_set) const;
  private:
   struct neighbour
   {
     double distance;
     int classification;
+    // Overload the < operator for sorting neighbour structures.
+    bool operator<(const neighbour& other) const
+    {
+      return distance < other.distance;
+    }
   };
   int k_;
   int num_attributes_;
   int computeNearestNeighbours(const vector<float> query,
-                               const vector< vector<float> > training_set);
-  double dist(const vector<float> query, const vector<float> record);
-  double distR(const vector<float> query, const vector<float> record);
-  template<class T> T sqr(const T &x);
-  bool compareDist(const neighbour &a, const neighbour &b);
+                               const vector< vector<float> > training_set) const;
+  double dist(const vector<float> query, const vector<float> record) const;
+  double distR(const vector<float> query, const vector<float> record) const;
+  template<class T> T sqr(const T &x) const;
   DISALLOW_COPY_AND_ASSIGN(NearestNeighbour);
 };
 
