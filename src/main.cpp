@@ -27,6 +27,7 @@
 #include <iostream>
 #include <unistd.h>  // getopt
 #include "NeuralNet.h"
+#include "NearestNeighbour.h"
 using namespace std;
 
 // NOTE: Remember to use -> when referencing a pointer to an object.
@@ -325,9 +326,16 @@ void prepareData(const vector< vector<float> >& db_table,
   int example;
   for (example = 0; example < params.num_instances; ++example)
   {
-    // Get the classification of the current instance. Classification data for
-    // each example is located after all attribute values.
-    int classification;
+    // Get the classification of the current instance.
+    int classification = db_table[example][params.num_features];
+    #if 0
+    // In the original datasets from the Semeion Research Center of
+    // Sciences of Communication, the label of each instance is indicated with
+    // multiple digits. For example, if there are n classifications, then
+    // n binary digits would be used to indicate the class. If using the
+    // original (i.e. non simplified) datasets, use this code instead.
+    // Other parts of the source code (where the target is needed) would need
+    // to be modified as well.
     for (int i = 0; i < params.num_classes; ++i)
     {
       if (db_table[example][params.num_features + i] == 1)
@@ -336,6 +344,7 @@ void prepareData(const vector< vector<float> >& db_table,
         break;
       }
     }
+    #endif
     // Push the instance in the appropriate partition.
     parted_db_table.at(classification - 1).push_back(db_table.at(example));
   }
@@ -425,7 +434,7 @@ int main(int argc, char** argv)
   try
   {
     cout << "******************************************************************"
-            "*******\nANN for steel classification problem.  "
+            "*******\nArtificial Neural Network vs k-Nearest Neighbours.  "
             "Copyright (C) 2012  Dennis Ideler\n\n"
             "This program comes with ABSOLUTELY NO WARRANTY. "
             "This is free software,\nand you are welcome to redistribute it "
