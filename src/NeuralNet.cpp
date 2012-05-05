@@ -174,10 +174,10 @@ void NeuralNet::loadPatterns(const vector< vector<float> > sample_set,
     {
       cout << "Expected outcome: " << target << "\n"
               "Actual outcome: " << get_result() << "\n\n";
-      for (int m = 0; m < output_layer_->get_size(); ++m)
-        cout << "node " << m+1 << ": " << get_output(m)
-             << "\terror: " << get_output_error(m) << "\n";
-      cout << "\n";
+      //for (int m = 0; m < output_layer_->get_size(); ++m)
+      //  cout << "node " << m+1 << ": " << get_output(m)
+      //       << "\terror: " << get_output_error(m) << "\n";
+      //cout << "\n";
     }
   }
   
