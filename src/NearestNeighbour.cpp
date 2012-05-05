@@ -31,7 +31,8 @@ NearestNeighbour::~NearestNeighbour()
  * Finds the k closest instances and takes the majority class.
  */
 void NearestNeighbour::learn(const vector< vector<float> > training_set,
-                             const vector< vector<float> > testing_set) const
+                             const vector< vector<float> > testing_set,
+                             const bool verbose) const
 {
   // For each unclassified example (ie instance in testing set),                     
   int total_hits = 0;
@@ -42,20 +43,27 @@ void NearestNeighbour::learn(const vector< vector<float> > training_set,
     int target = testing_set[i][num_attributes_];
 
     if (classification == target) ++total_hits;
-    cout << "Expected outcome: " << target << "\n" // TODO: remove after testing
-            "Actual outcome: " << classification << "\n\n";
+
+    if (verbose)
+    {
+      cout << "Expected outcome: " << target
+           << "\nActual outcome: " << classification << "\n\n";
+    }
   }
   
   float percentage = (static_cast<float>(total_hits) / total_cases) * 100;
   cout << "Correctly classified " << total_hits << " out of " << total_cases
        << " = " << percentage << "%\n\n";
-  // TODO: save hit percentage to file?
 }
 
 /**
  * Computes the distance to each classified example.
  * Sorts the distances and chooses the k nearest.
  * Returns the majority vote of the k nearest neighbours.
+ *
+ * @param query The unclassified example.
+ * @param training_set The dataset to compare against.
+ * @return The predicted classification of the query.
  */
 int NearestNeighbour::computeNearestNeighbours(
     const vector<float> query,
@@ -66,10 +74,7 @@ int NearestNeighbour::computeNearestNeighbours(
   for (int i = 0; i < size; ++i)
   {
     neighbour n;
-    n.distance = dist(query, training_set[i]); // TODO: Also try distR.
-    // TODO: weighted knn
-    // If weighted, multiply each examples vote (i.e. distance) by a weight.           
-    // weight_i = 1 / dist(query, record_i)^2
+    n.distance = distR(query, training_set[i]); // dist() not being used atm.
     n.classification = training_set[i][num_attributes_];
     neighbours.push_back(n);
   }
@@ -81,6 +86,8 @@ int NearestNeighbour::computeNearestNeighbours(
   set<int> classes;
   for (int i = 0; i < k_; ++i)
   {
+//    cout << "neighbour " << i+1 << ":  " << neighbours[i].classification
+//         << " " << neighbours[i].distance << "\n";
     votes[neighbours[i].classification]++;
     classes.insert(neighbours[i].classification);
   }
