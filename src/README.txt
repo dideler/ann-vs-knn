@@ -55,7 +55,10 @@ Program arguments:
 
 -p
   Flag for writing results to files that are ready to be plotted with gnuplot.
-  Optional tag.
+  Optional tag. Does not accept arguments.
   Default is not set.
-  Ex: -p  
 
+-v
+  Flag for verbose output. Displays the results of each classification attempt.
+  Optional tag. Does not accept arguments.
+  Default is not set.
