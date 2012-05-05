@@ -52,6 +52,7 @@ struct UserParameters
   string output_activation_function;
   bool bias;  // TODO: Implement bias.
   bool plot;  // Graph data.
+  bool verbose;  // Display each classification attempt.
   
   UserParameters()  // Set default values.
   {
@@ -71,6 +72,7 @@ struct UserParameters
     output_activation_function = "logistic";
     bias = false;
     plot = false;
+    verbose = false;
   }
 } params;  // A global struct object is much easier than passing many args.
 
@@ -131,11 +133,13 @@ void runNeuralNet(string network_error_file, string accuracy_file,
              params.output_activation_function.c_str(),
              params.learning_rate,
              params.momentum,
-             params.max_error);
+             params.max_error,
+             params.verbose);
   cout << "\n=== Testing Neural Net\n";
   ann->test(testing_set,
             params.hidden_activation_function.c_str(),
-            params.output_activation_function.c_str());
+            params.output_activation_function.c_str(),
+            params.verbose);
   
   if (params.plot)  // Write plot data if flag is set.
   {
@@ -450,7 +454,7 @@ int main(int argc, char** argv)
     string accuracy_file = "accuracy.dat";
     int c;
 
-    while ((c = getopt(argc, argv, "c:d:s:t:e:a:p")) != -1)
+    while ((c = getopt(argc, argv, "c:d:s:t:e:a:pv")) != -1)
     {
       switch (c)
       {
@@ -475,6 +479,9 @@ int main(int argc, char** argv)
         case 'p':
           params.plot = true;
           break;
+        case 'v':
+          params.verbose = true;
+          break;
         default:
           abort();
       }
@@ -486,12 +493,13 @@ int main(int argc, char** argv)
 
     srand(params.seed);
 
-    cout << "config file = " << config_file << ", dataset file = "
-         << dataset_file << ", error output file = " << error_file
-         << ", accuracy output file = " << accuracy_file << "\n";
-    printf("Using random number seed %d\n", params.seed);
-    printf("Using training/testing ratio %d : %d\n", params.training_ratio,
-           100 - params.training_ratio);
+    cout << "Configuration file = " << config_file
+         << "\nDataset file = " << dataset_file
+         << "\nError output file = " << error_file
+         << "\nAccuracy output file = " << accuracy_file
+         << "\nRandom number seed = " << params.seed
+         << "\nTraining : testing ratio = " << params.training_ratio << " : "
+         << 100 - params.training_ratio << "\n";
 
     if (config_file != "") readUserParameters(config_file);
     // Tables to store the complete database, training set, and testing set.
@@ -501,6 +509,8 @@ int main(int argc, char** argv)
     normalizeData(db_table);
     prepareData(db_table, training_set, testing_set);
     runNeuralNet(error_file, accuracy_file, training_set, testing_set);
+    //NearestNeighbour knn(3, params.num_features);
+    //knn.learn(training_set, testing_set);
   }
   catch (exception& ex) // TODO: improve exception handling.
   {
