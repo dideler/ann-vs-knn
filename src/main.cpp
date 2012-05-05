@@ -47,6 +47,7 @@ struct UserParameters
   int num_classes;  // Also the number of output nodes.
   int training_ratio;
   int seed;
+  int k;
   string learning_rule;
   string hidden_activation_function;
   string output_activation_function;
@@ -67,6 +68,7 @@ struct UserParameters
     num_classes = 7;
     training_ratio = 80;
     seed = time(NULL);
+    k = 3;
     learning_rule = "backprop";
     hidden_activation_function = "logistic";
     output_activation_function = "logistic";
@@ -112,9 +114,9 @@ void writePlotData(const double* data, string file_name)
  * @param training_set  The set of data that the neural net will train on
  * @param testing_set   The set of data that the neural net will be tested on
  */
-void runNeuralNet(string network_error_file, string accuracy_file,
-                  vector< vector<float> > training_set,
-                  vector< vector<float> > testing_set)
+void runNeuralNetwork(string network_error_file, string accuracy_file,
+                      vector< vector<float> > training_set,
+                      vector< vector<float> > testing_set)
 {
   //  Construct the Artificial Neural Net and initialize weighted connections.
   NeuralNet* ann = new NeuralNet(params.num_features,
@@ -148,6 +150,21 @@ void runNeuralNet(string network_error_file, string accuracy_file,
   }
   
   ann->~NeuralNet();  // Le delete.
+}
+
+
+/**
+ * Set of instructions to get the kNN classifiction started.
+ *
+ * @param training_set  The dataset to compare against.
+ * @param testing_set   The dataset with examples to classify.
+ */
+void runNearestNeighbour(const vector< vector<float> > training_set,
+                         const vector< vector<float> > testing_set)
+{
+  cout << "\n=== " << params.k << "-Nearest Neighbours\n";
+  NearestNeighbour knn(params.k, params.num_features);
+  knn.learn(training_set, testing_set, params.verbose);
 }
 
 
@@ -223,7 +240,11 @@ void readUserParameters(string file_name)
             break;
           case 13:  // Max error.
             params.max_error = atof(line);
-            cout << "Max error:\t\t\t" << params.max_error << "%\n\n";
+            cout << "Max error:\t\t\t" << params.max_error << "%\n";
+            break;
+          case 14:  // k neighbours (for k-NN).
+            params.k = atoi(line);
+            cout << "k Neighbours:\t\t\t" << params.k << "\n\n";
             break;
           default:
             cerr << "(!) Too many parameters specified or comment without tag.\n";
@@ -508,14 +529,12 @@ int main(int argc, char** argv)
     cout << "Number of instances = " << params.num_instances << "\n";
     normalizeData(db_table);
     prepareData(db_table, training_set, testing_set);
-    runNeuralNet(error_file, accuracy_file, training_set, testing_set);
-    //NearestNeighbour knn(3, params.num_features);
-    //knn.learn(training_set, testing_set);
+    runNeuralNetwork(error_file, accuracy_file, training_set, testing_set);
+    runNearestNeighbour(training_set, testing_set);
   }
   catch (exception& ex) // TODO: improve exception handling.
   {
     cout << "Some exception occurred!" << endl;
   }
-
   return 0;
 }
