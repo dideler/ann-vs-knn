@@ -24,28 +24,50 @@ def parse_csv(input, delim=','):
 
 def simplify_class():
     """Makes the last digit in each example the expected outcome."""
-    ip = open('faults.data', 'r')
+    from collections import defaultdict
+    myDict = defaultdict(int)
+
+    ip = open('faults.data', 'r')  # TODO: use args instead of hardcoding
     op = open('faults-simple.data', 'w')
     lines = [line.strip() for line in ip.readlines()]
-    
+    count = []  # List to keep track of class distribution.
+
     for line in lines:
         if line.endswith('1 0 0 0 0 0 0'):
             op.write(line[:-13] + '1\n')
+            count.append(1)
         elif line.endswith('0 1 0 0 0 0 0'):
             op.write(line[:-13] + '2\n')
+            count.append(2)
         elif line.endswith('0 0 1 0 0 0 0'):
             op.write(line[:-13] + '3\n')
+            count.append(3)
         elif line.endswith('0 0 0 1 0 0 0'):
             op.write(line[:-13] + '4\n')
+            count.append(4)
         elif line.endswith('0 0 0 0 1 0 0'):
             op.write(line[:-13] + '5\n')
+            count.append(5)
         elif line.endswith('0 0 0 0 0 1 0'):
             op.write(line[:-13] + '6\n')
+            count.append(6)
         elif line.endswith('0 0 0 0 0 0 1'):
             op.write(line[:-13] + '7\n')
+            count.append(7)
     
     ip.close()
     op.close()
+
+    print "Data simplification complete!"
+    
+    for label in count:
+        myDict[label] += 1
+
+    for label in myDict:
+        print "class %d -> %d instances" % (label, myDict[label])
+
+    myDict.clear()
+    del count[:]
  
     ip = open('digits.data', 'r')
     op = open('digits-simple.data', 'w')
@@ -53,26 +75,44 @@ def simplify_class():
     
     for line in lines:
         if line.endswith('1 0 0 0 0 0 0 0 0 0'):
-            op.write(line[:-19] + '1\n') # in reality it's 0, not 1, and so on.
+            op.write(line[:-19] + '1\n')
+            count.append(0)  # Class 1 classifies the digit 0, and so on.
         elif line.endswith('0 1 0 0 0 0 0 0 0 0'):
             op.write(line[:-19] + '2\n')
+            count.append(1)
         elif line.endswith('0 0 1 0 0 0 0 0 0 0'):
             op.write(line[:-19] + '3\n')
+            count.append(2)
         elif line.endswith('0 0 0 1 0 0 0 0 0 0'):
             op.write(line[:-19] + '4\n')
+            count.append(3)
         elif line.endswith('0 0 0 0 1 0 0 0 0 0'):
             op.write(line[:-19] + '5\n')
+            count.append(4)
         elif line.endswith('0 0 0 0 0 1 0 0 0 0'):
             op.write(line[:-19] + '6\n')
+            count.append(5)
         elif line.endswith('0 0 0 0 0 0 1 0 0 0'):
             op.write(line[:-19] + '7\n')
+            count.append(6)
         elif line.endswith('0 0 0 0 0 0 0 1 0 0'):
             op.write(line[:-19] + '8\n')
+            count.append(7)
         elif line.endswith('0 0 0 0 0 0 0 0 1 0'):
             op.write(line[:-19] + '9\n')
+            count.append(8)
         elif line.endswith('0 0 0 0 0 0 0 0 0 1'):
             op.write(line[:-19] + '10\n')
+            count.append(9)
 
     ip.close()
     op.close()
+    
+    print "\nData simplification complete!"
+    
+    for label in count:
+        myDict[label] += 1
+
+    for label in myDict:
+        print "class %d -> %d instances" % (label, myDict[label])
 
