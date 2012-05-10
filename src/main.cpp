@@ -178,13 +178,14 @@ void runNeuralNetwork(string network_error_file, string accuracy_file,
  * @param training_set  The dataset to compare against.
  * @param testing_set   The dataset with examples to classify.
  */
-void runNearestNeighbour(const vector< vector<float> > training_set,
+void runNearestNeighbour(const string knn_accuracy_file,
+                         const vector< vector<float> > training_set,
                          const vector< vector<float> > testing_set)
 {
   cout << "\n=== " << params.k << "-Nearest Neighbours\n";
   NearestNeighbour knn(params.k, params.num_features);
   double accuracy = knn.learn(training_set, testing_set, params.verbose);
-  writeKnnData("knn-acc.out", accuracy);
+  writeKnnData(knn_accuracy_file, accuracy);
 }
 
 
@@ -491,11 +492,12 @@ int main(int argc, char** argv)
 
     string config_file = "";
     string dataset_file = "";
-    string error_file = "error.dat";
-    string accuracy_file = "accuracy.dat";
+    string error_file = "ann-error.out";
+    string accuracy_file = "ann-accuracy.out";
+    string knn_accuracy_file = "knn-accuracy.out";
     int c;
 
-    while ((c = getopt(argc, argv, "c:d:s:t:e:a:pv")) != -1)
+    while ((c = getopt(argc, argv, "c:d:s:t:e:a:k:pv")) != -1)
     {
       switch (c)
       {
@@ -516,6 +518,9 @@ int main(int argc, char** argv)
           break;
         case 'a':  // Filename for network accuracy during training (per epoch).
           accuracy_file = optarg;
+          break;
+        case 'k':
+          knn_accuracy_file = optarg;
           break;
         case 'p':
           params.plot = true;
@@ -550,7 +555,7 @@ int main(int argc, char** argv)
     normalizeData(db_table);
     prepareData(db_table, training_set, testing_set);
     runNeuralNetwork(error_file, accuracy_file, training_set, testing_set);
-    runNearestNeighbour(training_set, testing_set);
+    runNearestNeighbour(knn_accuracy_file, training_set, testing_set);
   }
   catch (exception& ex) // TODO: improve exception handling.
   {

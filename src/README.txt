@@ -41,17 +41,23 @@ Program arguments:
   Default is 80%.
   Ex: -t 70
 
--e error_output_filename
+-e ann_error_output_filename
   Name of the file where you want the ANN's training error data to be saved to.
   Optional tag, but argument required if provided.
-  Default is error.dat.
-  Ex: -e error1.dat
+  Default is ann-error.out
+  Ex: -e error1.out
 
--a accuracy_output_filename
+-a ann_accuracy_output_filename
   Name of the file where you want the ANN's accuracy data to be saved to.
   Optional tag, but argument required if provided.
-  Default is accuracy.dat.
-  Ex: -a accuracy2.dat
+  Default is ann-accuracy.out
+  Ex: -a accuracy2.out
+
+-k knn_accuracy_output_filename
+  Name of the file where you want the k-NN's accuracy data to be saved to.
+  Optional tag, but argument required if provided.
+  Default is knn-error.out
+  Ex: -k knn-acc-steel.out
 
 -p
   Flag for writing results to files that are ready to be plotted with gnuplot.
