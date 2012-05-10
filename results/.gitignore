@@ -1,0 +1,3 @@
+# Ignore results from program output.
+# If you'd like to see them, run the program on your own.
+*.out
