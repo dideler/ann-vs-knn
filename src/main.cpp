@@ -82,13 +82,14 @@ struct UserParameters
 /**
  * Writes results to an output file in a gnuplot friendly format.
  * 
- * @param data   Array of stored data from each epoch which needs to be printed
+ * @param data  Array of stored data from each epoch which needs to be printed.
+ * @param file_name The name of the file to write to.
  */
-void writePlotData(const double* data, string file_name)
+void writePlotData(const string file_name, const double* data)
 {
-  ofstream file_stream;  // Output file stream - collects data to graph runs.
+  ofstream file_stream;
+  file_stream.open(file_name.c_str());  // Output file stream.
 
-  file_stream.open(file_name.c_str());
   if (file_stream.is_open())
   {
 //    file_stream << "# Percentage of correctly classified digits per training"
@@ -97,6 +98,24 @@ void writePlotData(const double* data, string file_name)
     {
       file_stream << "\t" << epoch+1 << "\t\t" << data[epoch] << "\n";
     }
+  }
+  else
+  {
+    cerr << "(!) Unable to open file\n";
+  }
+  file_stream.close();
+}
+
+/**
+ * Appends the classification accuracy of the k-NN classifier to a file.
+ */
+void writeKnnData(const string file_name, const double accuracy)
+{
+  ofstream file_stream;
+  file_stream.open(file_name.c_str(), ios::app);  // Set to append mode.
+  if (file_stream.is_open())
+  {
+    file_stream << accuracy << "\n";
   }
   else
   {
@@ -145,8 +164,8 @@ void runNeuralNetwork(string network_error_file, string accuracy_file,
   
   if (params.plot)  // Write plot data if flag is set.
   {
-    writePlotData(ann->get_all_hit_percentage(), accuracy_file);
-    writePlotData(ann->get_all_network_error(), network_error_file);
+    writePlotData(accuracy_file, ann->get_all_hit_percentage());
+    writePlotData(network_error_file, ann->get_all_network_error());
   }
   
   ann->~NeuralNet();  // Le delete.
@@ -164,7 +183,8 @@ void runNearestNeighbour(const vector< vector<float> > training_set,
 {
   cout << "\n=== " << params.k << "-Nearest Neighbours\n";
   NearestNeighbour knn(params.k, params.num_features);
-  knn.learn(training_set, testing_set, params.verbose);
+  double accuracy = knn.learn(training_set, testing_set, params.verbose);
+  writeKnnData("knn-acc.out", accuracy);
 }
 
 

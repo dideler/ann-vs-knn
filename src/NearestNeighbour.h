@@ -25,9 +25,9 @@ class NearestNeighbour
  public:
   NearestNeighbour(const int k, const int num_attributes);
   ~NearestNeighbour();
-  void learn(const vector< vector<float> > training_set,
-             const vector< vector<float> > testing_set,
-             const bool verbose) const;
+  double learn(const vector< vector<float> > training_set,
+               const vector< vector<float> > testing_set,
+               const bool verbose) const;
  private:
   struct neighbour
   {

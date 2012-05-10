@@ -26,11 +26,16 @@ NearestNeighbour::~NearestNeighbour()
 }
 
 /**
- * Performs the lazy learning phase.
+ * Performs the lazy learning phase of kNN.
  * Unweighted k-nearest neighbour for classification.
  * Finds the k closest instances and takes the majority class.
+ *
+ * @param training_set The set of labeled examples to compare against.
+ * @param testing_set The set of "unlabeled" examples to test accuracy.
+ * @param verbose Boolean for outputting extra classification information.
+ * @return The classification accuracy.
  */
-void NearestNeighbour::learn(const vector< vector<float> > training_set,
+double NearestNeighbour::learn(const vector< vector<float> > training_set,
                              const vector< vector<float> > testing_set,
                              const bool verbose) const
 {
@@ -51,9 +56,10 @@ void NearestNeighbour::learn(const vector< vector<float> > training_set,
     }
   }
   
-  float percentage = (static_cast<float>(total_hits) / total_cases) * 100;
+  double accuracy = (static_cast<float>(total_hits) / total_cases) * 100;
   cout << "Correctly classified " << total_hits << " out of " << total_cases
-       << " = " << percentage << "%\n\n";
+       << " = " << accuracy << "%\n\n";
+  return accuracy;
 }
 
 /**
