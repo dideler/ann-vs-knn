@@ -35,6 +35,7 @@ ANN_ERROR3="../results/ann-err-digits.out"
 ANN_ACCURACY3="../results/ann-acc-digits.out"
 KNN_ACCURACY3="../results/knn-acc-digits.out"
 
+echo
 echo "== Parameters for experiment #1 =="
 echo "Configuration file = $CONF1"
 echo "Dataset = $DATA1"
@@ -48,7 +49,7 @@ echo "Configuration file = $CONF2"
 echo "Dataset = $DATA2"
 echo "Training samples percentage = $RATIO2"
 echo "Output filename for network error = $ANN_ERROR2"
-echo "Output filename for network accuracy = $AN__ACCURACY2"
+echo "Output filename for network accuracy = $ANN_ACCURACY2"
 echo "Output filename for k-NN accuracy = $KNN_ACCURACY2"
 echo
 echo "== Parameters for experiment #3 =="
