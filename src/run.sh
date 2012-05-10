@@ -3,7 +3,7 @@
 # (C) 2012 Dennis Ideler
 #
 # Example:
-#   $ sh run.sh 1 75 err.out acc.out
+#   $ bash run.sh 1 75 err.out acc.out
 #
 # See README.txt for more info on parameters.
 
@@ -26,6 +26,7 @@ echo
 function run()
 {
   # Experiment 1 (steel dataset)
+  # For verbose output, use the -v tag (warning: running time will be extra long).
   ./ann-vs-knn -c steel.conf -d ./data/faults-simple.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
   ./ann-vs-knn -c steel-subset.conf -d ./data/faults-subset-simple.data -s $SEED -t $RATIO -e $ERROR -a $ACCURACY -p
 

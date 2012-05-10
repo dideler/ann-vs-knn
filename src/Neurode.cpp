@@ -163,7 +163,7 @@ void Neurode::computeHiddenError(const Layer& output_layer, const int node_i,
 //    error_ = ((4 * (cosh(output_) * cosh(output_))) /
 //             ((1 + cosh(2 * output_)) * (1 + cosh(2 * output_)))) * sum;
 
-  // TODO: should be using the derivative during backprop
+  // TODO: should be using the derivative during backprop?
   //       logisticDerivative(x) = e^x / (e^x + 1)^2
   //       tanhDerivative(x) = sech^2(x) = (2 cosh(x)) / (cosh(2 x)+1)^2
   //       according to wolfram          = (4 cosh^2(x)) / (1+cosh(2 x))^2
