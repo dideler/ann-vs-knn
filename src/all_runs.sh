@@ -69,19 +69,19 @@ function run()
   echo "Startins runs for steel faults dataset."
   for SEED in {1..30}
   do
-    bash run.sh $CONF1 $DATA1 $SEED $RATIO1 $ANN_ERROR1 $ANN_ACCURACY1 $KNN_ACCURACY1
+    bash run.sh $CONF1 $DATA1 $SEED $RATIO1 $SEED$ANN_ERROR1 $SEED$ANN_ACCURACY1 $KNN_ACCURACY1
   done
 
   echo "Startins runs for steel faults datasubset."
   for SEED in {1..30}
   do
-    bash run.sh $CONF2 $DATA2 $SEED $RATIO2 $ANN_ERROR2 $ANN_ACCURACY2 $KNN_ACCURACY2
+    bash run.sh $CONF2 $DATA2 $SEED $RATIO2 $SEED$ANN_ERROR2 $SEED$ANN_ACCURACY2 $KNN_ACCURACY2
   done
 
   echo "Startins runs for digit recognition dataset."
   for SEED in {1..30}
   do
-    bash run.sh $CONF2 $DATA2 $SEED $RATIO2 $ANN_ERROR2 $ANN_ACCURACY2 $KNN_ACCURACY2
+    bash run.sh $CONF3 $DATA3 $SEED $RATIO3 $SEED$ANN_ERROR3 $SEED$ANN_ACCURACY3 $KNN_ACCURACY3
   done
 }
 
