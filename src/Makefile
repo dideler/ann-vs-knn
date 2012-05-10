@@ -37,8 +37,8 @@ NearestNeighbour.o: NearestNeighbour.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) NearestNeighbour.cpp
 
 clean:
-	\rm *.o ../results/*.out
+	-rm -f *.o ../results/*.out
 
 # Also remove the executables and the output files.
 cleanest: clean
-	\rm ann-vs-knn
+	-rm -f ann-vs-knn
