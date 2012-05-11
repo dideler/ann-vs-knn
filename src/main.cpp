@@ -54,6 +54,7 @@ struct UserParameters
   bool bias;  // TODO: Implement bias.
   bool plot;  // Graph data.
   bool verbose;  // Display each classification attempt.
+  bool output;  // Output accuracy every epoch.
   
   UserParameters()  // Set default values.
   {
@@ -75,6 +76,7 @@ struct UserParameters
     bias = false;
     plot = false;
     verbose = false;
+    output = false;
   }
 } params;  // A global struct object is much easier than passing many args.
 
@@ -85,7 +87,7 @@ struct UserParameters
  * @param data  Array of stored data from each epoch which needs to be printed.
  * @param file_name The name of the file to write to.
  */
-void writePlotData(const string file_name, const double* data)
+void writeData(const string file_name, const double* data)
 {
   ofstream file_stream;
   file_stream.open(file_name.c_str());  // Output file stream.
@@ -107,9 +109,9 @@ void writePlotData(const string file_name, const double* data)
 }
 
 /**
- * Appends the classification accuracy of the k-NN classifier to a file.
+ * Appends the classification accuracy of a classifier to a file.
  */
-void writeKnnData(const string file_name, const double accuracy)
+void appendData(const string file_name, const double accuracy)
 {
   ofstream file_stream;
   file_stream.open(file_name.c_str(), ios::app);  // Set to append mode.
@@ -128,12 +130,14 @@ void writeKnnData(const string file_name, const double accuracy)
 /**
  * Initialize the ANN and its weights. Train it, then test the trained ANN.
  *
- * @param error_file    The output file where network error will be saved to.
- * @param accuracy_file The output file where network accuracy will be saved to.
- * @param training_set  The set of data that the neural net will train on
- * @param testing_set   The set of data that the neural net will be tested on
+ * @param error_filename Filename where network error will be saved to.
+ * @param accuracy_filename Filename where training accuracy will be saved to.
+ * @param test_accuracy_filename Filename where testing accuracy will be saved to.
+ * @param training_set The set of data that the neural net will train on
+ * @param testing_set The set of data that the neural net will be tested on
  */
-void runNeuralNetwork(string network_error_file, string accuracy_file,
+void runNeuralNetwork(string error_filename, string accuracy_filename,
+                      string test_accuracy_filename,
                       vector< vector<float> > training_set,
                       vector< vector<float> > testing_set)
 {
@@ -155,7 +159,8 @@ void runNeuralNetwork(string network_error_file, string accuracy_file,
              params.learning_rate,
              params.momentum,
              params.max_error,
-             params.verbose);
+             params.verbose,
+             params.output);
   cout << "\n=== Testing Neural Net\n";
   ann->test(testing_set,
             params.hidden_activation_function.c_str(),
@@ -164,8 +169,9 @@ void runNeuralNetwork(string network_error_file, string accuracy_file,
   
   if (params.plot)  // Write plot data if flag is set.
   {
-    writePlotData(accuracy_file, ann->get_all_hit_percentage());
-    writePlotData(network_error_file, ann->get_all_network_error());
+    writeData(accuracy_filename, ann->get_all_hit_percentage());
+    writeData(error_filename, ann->get_all_network_error());
+    appendData(test_accuracy_filename, ann->get_test_accuracy());
   }
   
   ann->~NeuralNet();  // Le delete.
@@ -185,7 +191,7 @@ void runNearestNeighbour(const string knn_accuracy_file,
   cout << "\n=== " << params.k << "-Nearest Neighbours\n";
   NearestNeighbour knn(params.k, params.num_features);
   double accuracy = knn.learn(training_set, testing_set, params.verbose);
-  writeKnnData(knn_accuracy_file, accuracy);
+  appendData(knn_accuracy_file, accuracy);
 }
 
 
@@ -480,7 +486,7 @@ int main(int argc, char** argv)
   try
   {
     cout << "******************************************************************"
-            "*******\nArtificial Neural Network vs k-Nearest Neighbours.  "
+            "*******\nArtificial Neural Network vs k-Nearest Neighbours.\n"
             "Copyright (C) 2012  Dennis Ideler\n\n"
             "This program comes with ABSOLUTELY NO WARRANTY. "
             "This is free software,\nand you are welcome to redistribute it "
@@ -490,22 +496,23 @@ int main(int argc, char** argv)
     cout.precision(10);  // Should be enough to not trim values when printing.
     cin.sync_with_stdio(false);  // Increase input speed.
 
-    string config_file = "";
-    string dataset_file = "";
-    string error_file = "ann-error.out";
-    string accuracy_file = "ann-accuracy.out";
-    string knn_accuracy_file = "knn-accuracy.out";
+    string config_filename = "";
+    string dataset_filename = "";
+    string ann_train_error_filename = "ann-train-error.out";
+    string ann_train_accuracy_filename = "ann-train-accuracy.out";
+    string ann_test_accuracy_filename = "ann-test-accuracy.out";
+    string knn_accuracy_filename = "knn-accuracy.out";
     int c;
 
-    while ((c = getopt(argc, argv, "c:d:s:t:e:a:k:pv")) != -1)
+    while ((c = getopt(argc, argv, "c:d:s:t:e:a:z:k:pov")) != -1)
     {
       switch (c)
       {
         case 'c':  // Configuration file for the ANN.
-          config_file = optarg;
+          config_filename = optarg;
           break;
         case 'd':  // Dataset file.
-          dataset_file = optarg;
+          dataset_filename = optarg;
           break;
         case 's':  // Seed for random number generator.
           params.seed = atoi(optarg);
@@ -514,16 +521,22 @@ int main(int argc, char** argv)
           params.training_ratio = atoi(optarg);
           break;
         case 'e':  // Filename for network error during training (per epoch).
-          error_file = optarg;
+          ann_train_error_filename = optarg;
           break;
         case 'a':  // Filename for network accuracy during training (per epoch).
-          accuracy_file = optarg;
+          ann_train_accuracy_filename = optarg;
+          break;
+        case 'z':  // Filename for network accuracy during testing (one epoch).
+          ann_test_accuracy_filename = optarg;
           break;
         case 'k':
-          knn_accuracy_file = optarg;
+          knn_accuracy_filename = optarg;
           break;
         case 'p':
           params.plot = true;
+          break;
+        case 'o':
+          params.output = true;
           break;
         case 'v':
           params.verbose = true;
@@ -539,23 +552,26 @@ int main(int argc, char** argv)
 
     srand(params.seed);
 
-    cout << "Configuration file = " << config_file
-         << "\nDataset file = " << dataset_file
-         << "\nError output file = " << error_file
-         << "\nAccuracy output file = " << accuracy_file
+    cout << "Configuration file = " << config_filename
+         << "\nDataset file = " << dataset_filename
+         << "\nANN training error output file = " << ann_train_error_filename
+         << "\nANN training accuracy output file = " << ann_train_accuracy_filename
+         << "\nANN testing accuracy output file = " << ann_test_accuracy_filename
+         << "\nKNN accurary output file = " << knn_accuracy_filename
          << "\nRandom number seed = " << params.seed
          << "\nTraining : testing ratio = " << params.training_ratio << " : "
          << 100 - params.training_ratio << "\n";
 
-    if (config_file != "") readUserParameters(config_file);
+    if (config_filename != "") readUserParameters(config_filename);
     // Tables to store the complete database, training set, and testing set.
     vector< vector<float> > db_table, training_set, testing_set;
-    readData(dataset_file, db_table);
+    readData(dataset_filename, db_table);
     cout << "Number of instances = " << params.num_instances << "\n";
     normalizeData(db_table);
     prepareData(db_table, training_set, testing_set);
-    runNeuralNetwork(error_file, accuracy_file, training_set, testing_set);
-    runNearestNeighbour(knn_accuracy_file, training_set, testing_set);
+    runNeuralNetwork(ann_train_error_filename, ann_train_accuracy_filename,
+                     ann_test_accuracy_filename, training_set, testing_set);
+    runNearestNeighbour(knn_accuracy_filename, training_set, testing_set);
   }
   catch (exception& ex) // TODO: improve exception handling.
   {

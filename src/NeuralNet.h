@@ -42,6 +42,7 @@ class NeuralNet
             const bool verbose);
   double* get_all_network_error(void) const;
   double* get_all_hit_percentage(void) const;
+  double get_test_accuracy(void) const;
 
  private:
   void loadPatterns(const vector< vector<float> > sample_set,
@@ -69,6 +70,7 @@ class NeuralNet
   Layer* output_layer_;
   double* all_network_error_;  // Holds the network error of each epoch.
   double* all_hit_percentage_;
+  double test_accuracy_;
 };
 
 #endif	/* NEURALNET_H */

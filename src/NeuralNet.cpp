@@ -196,6 +196,7 @@ void NeuralNet::loadPatterns(const vector< vector<float> > sample_set,
   }
   else
   {
+    test_accuracy_ = percentage;
     cout << "Correctly classified " << total_hits << " out of " << total_cases
          << " = " << percentage << "%\n\n";
   }
@@ -336,3 +337,5 @@ double* NeuralNet::get_all_hit_percentage() const
 {
   return all_hit_percentage_;
 }
+
+double NeuralNet::get_test_accuracy() const { return test_accuracy_; }
