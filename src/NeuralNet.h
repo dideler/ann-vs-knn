@@ -34,7 +34,8 @@ class NeuralNet
              const double learning_rate,
              const double momentum,
              const double max_error,
-             const bool verbose);
+             const bool verbose,
+             const bool output);
   void test(vector< vector<float> > testing_set,
             const char* hidden_activation_function,
             const char* output_activation_function,
@@ -50,6 +51,7 @@ class NeuralNet
                     const double momentum,
                     const bool train,
                     const bool verbose,
+                    const bool output,
                     const int epoch_num);
   void forwardprop(const char* hidden_activation_function,
                    const char* output_activation_function);

@@ -128,6 +128,7 @@ void NeuralNet::loadPatterns(const vector< vector<float> > sample_set,
                              const double momentum,
                              const bool train,
                              const bool verbose,
+                             const bool output,
                              const int epoch_num)
 {
   // Load each pattern into neural net, one at a time.
@@ -186,10 +187,18 @@ void NeuralNet::loadPatterns(const vector< vector<float> > sample_set,
   {
     all_hit_percentage_[epoch_num] = percentage;
     all_network_error_[epoch_num] = network_error;
-    cout << "epoch: " << epoch_num + 1 << "  error: " << network_error << "\n";
+    if (output)
+    {
+      cout << "epoch: " << epoch_num + 1 << "  error: " << network_error << "\n";
+      cout << "Correctly classified " << total_hits << " out of " << total_cases
+           << " = " << percentage << "%\n\n";
+    }
   }
-  cout << "Correctly classified " << total_hits << " out of " << total_cases
-       << " = " << percentage << "%\n\n";
+  else
+  {
+    cout << "Correctly classified " << total_hits << " out of " << total_cases
+         << " = " << percentage << "%\n\n";
+  }
 }
 
 /**
@@ -205,7 +214,8 @@ void NeuralNet::train(vector< vector<float> > training_set,
                       const double learning_rate,
                       const double momentum,
                       const double max_error,
-                      const bool verbose)
+                      const bool verbose,
+                      const bool output)
 {
   all_hit_percentage_ = new double[num_epochs];
   all_network_error_ = new double[num_epochs];
@@ -220,7 +230,7 @@ void NeuralNet::train(vector< vector<float> > training_set,
     // Load patterns, propagate them, then back-propagate them.
     loadPatterns(training_set, hidden_activation_function,
                  output_activation_function, learning_rate, momentum, true,
-                 verbose, epoch);
+                 verbose, output, epoch);
 
     if (all_network_error_[epoch] <= max_error)
       break;
@@ -241,7 +251,7 @@ void NeuralNet::test(vector< vector<float> > testing_set,
                      const bool verbose)
 {
   loadPatterns(testing_set, hidden_activation_function,
-               output_activation_function, 0.0, 0.0, false, verbose, 0);
+               output_activation_function, 0.0, 0.0, false, verbose, false, 0);
 }
 
 /**
