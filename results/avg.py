@@ -13,6 +13,6 @@ try:
     total = 0
     for counter, num in enumerate(f):
         total += float(num)
-    print 'Average is', total / (counter + 1)
+    print 'Average of %s is %f' % (filename, total / (counter + 1))
 except:
     print 'Oops. File name correct?'
