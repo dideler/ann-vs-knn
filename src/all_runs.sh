@@ -20,6 +20,7 @@ DATA1=$DATA_DIR"faults-simple.data"
 RATIO1="75"
 ANN_ERROR1="ann-err-faults.out"
 ANN_ACCURACY1="ann-acc-faults.out"
+ANN_TEST_ACCURACY1="ann-test-acc-faults.out"
 KNN_ACCURACY1="knn-acc-faults.out"
 
 # Variables for the second experiment.
@@ -28,6 +29,7 @@ DATA2=$DATA_DIR"faults-subset-simple.data"
 RATIO2="75"
 ANN_ERROR2="ann-err-faults-subset.out"
 ANN_ACCURACY2="ann-acc-faults-subset.out"
+ANN_TEST_ACCURACY2="ann-test-acc-faults-subset.out"
 KNN_ACCURACY2="knn-acc-faults-subset.out"
 
 # Variables for the third experiment.
@@ -36,6 +38,7 @@ DATA3=$DATA_DIR"digits-simple.data"
 RATIO3="75"
 ANN_ERROR3="ann-err-digits.out"
 ANN_ACCURACY3="ann-acc-digits.out"
+ANN_TEST_ACCURACY3="ann-test-acc-digits.out"
 KNN_ACCURACY3="knn-acc-digits.out"
 
 echo
@@ -43,24 +46,27 @@ echo "== Parameters for experiment #1 =="
 echo "Configuration file = $CONF1"
 echo "Dataset = $DATA1"
 echo "Training samples percentage = $RATIO1"
-echo "Output filename for network error = $RESULTS_DIR$ANN_ERROR1"
-echo "Output filename for network accuracy = $RESULTS_DIR$ANN_ACCURACY1"
+echo "Output filename for network training error = $RESULTS_DIR$ANN_ERROR1"
+echo "Output filename for network training accuracy = $RESULTS_DIR$ANN_ACCURACY1"
+echo "Output filename for network testing accuracy = $RESULTS_DIR$ANN_TEST_ACCURACY1"
 echo "Output filename for k-NN accuracy = $RESULTS_DIR$KNN_ACCURACY1"
 echo
 echo "== Parameters for experiment #2 =="
 echo "Configuration file = $CONF2"
 echo "Dataset = $DATA2"
 echo "Training samples percentage = $RATIO2"
-echo "Output filename for network error = $RESULTS_DIR$ANN_ERROR2"
-echo "Output filename for network accuracy = $RESULTS_DIR$ANN_ACCURACY2"
+echo "Output filename for network training error = $RESULTS_DIR$ANN_ERROR2"
+echo "Output filename for network testing accuracy = $RESULTS_DIR$ANN_ACCURACY2"
+echo "Output filename for network testing accuracy = $RESULTS_DIR$ANN_TEST_ACCURACY2"
 echo "Output filename for k-NN accuracy = $RESULTS_DIR$KNN_ACCURACY2"
 echo
 echo "== Parameters for experiment #3 =="
 echo "Configuration file = $CONF3"
 echo "Dataset = $DATA3"
 echo "Training samples percentage = $RATIO3"
-echo "Output filename for network error = $RESULTS_DIR$ANN_ERROR3"
-echo "Output filename for network accuracy = $RESULTS_DIR$ANN_ACCURACY3"
+echo "Output filename for network training error = $RESULTS_DIR$ANN_ERROR3"
+echo "Output filename for network testing accuracy = $RESULTS_DIR$ANN_ACCURACY3"
+echo "Output filename for network testing accuracy = $RESULTS_DIR$ANN_TEST_ACCURACY3"
 echo "Output filename for k-NN accuracy = $RESULTS_DIR$KNN_ACCURACY3"
 echo
 read -p "Are these values correct? (y/n) " -n 1
@@ -72,19 +78,19 @@ function run()
   echo "Startins runs for steel faults dataset."
   for SEED in {1..30}
   do
-    bash run.sh $CONF1 $DATA1 $SEED $RATIO1 $RESULTS_DIR$SEED$ANN_ERROR1 $RESULTS_DIR$SEED$ANN_ACCURACY1 $RESULTS_DIR$KNN_ACCURACY1
+    bash run.sh $CONF1 $DATA1 $SEED $RATIO1 $RESULTS_DIR$SEED$ANN_ERROR1 $RESULTS_DIR$SEED$ANN_ACCURACY1 $RESULTS_DIR$ANN_TEST_ACCURACY1 $RESULTS_DIR$KNN_ACCURACY1
   done
 
   echo "Startins runs for steel faults datasubset."
   for SEED in {1..30}
   do
-    bash run.sh $CONF2 $DATA2 $SEED $RATIO2 $RESULTS_DIR$SEED$ANN_ERROR2 $RESULTS_DIR$SEED$ANN_ACCURACY2 $RESULTS_DIR$KNN_ACCURACY2
+    bash run.sh $CONF2 $DATA2 $SEED $RATIO2 $RESULTS_DIR$SEED$ANN_ERROR2 $RESULTS_DIR$SEED$ANN_ACCURACY2 $RESULTS_DIR$ANN_TEST_ACCURACY2 $RESULTS_DIR$KNN_ACCURACY2
   done
 
   echo "Startins runs for digit recognition dataset."
   for SEED in {1..30}
   do
-    bash run.sh $CONF3 $DATA3 $SEED $RATIO3 $RESULTS_DIR$SEED$ANN_ERROR3 $RESULTS_DIR$SEED$ANN_ACCURACY3 $RESULTS_DIR$KNN_ACCURACY3
+    bash run.sh $CONF3 $DATA3 $SEED $RATIO3 $RESULTS_DIR$SEED$ANN_ERROR3 $RESULTS_DIR$SEED$ANN_ACCURACY3 $RESULTS_DIR$ANN_TEST_ACCURACY3 $RESULTS_DIR$KNN_ACCURACY3
   done
 }
 
