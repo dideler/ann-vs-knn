@@ -41,19 +41,25 @@ Program arguments:
   Default is 80%.
   Ex: -t 70
 
--e ann_error_output_filename
+-e ann_train_error_filename
   Name of the file where you want the ANN's training error data to be saved to.
   Optional tag, but argument required if provided.
-  Default is ann-error.out
-  Ex: -e error1.out
+  Default is ann-train-error.out
+  Ex: -e train-error.out
 
--a ann_accuracy_output_filename
-  Name of the file where you want the ANN's accuracy data to be saved to.
+-a ann_train_accuracy_filename
+  Name of the file where you want the ANN's training accuracy data to be saved to.
   Optional tag, but argument required if provided.
-  Default is ann-accuracy.out
-  Ex: -a accuracy2.out
+  Default is ann-train-accuracy.out
+  Ex: -a train-accuracy.out
 
--k knn_accuracy_output_filename
+-z ann_test_accuracy_filename
+  Name of the file where you want the ANN's testing accuracy data to be saved to.
+  Optional tag, but argument required if provided.
+  Default is ann-test-accuracy.out
+  Ex: -z test-accuracy.out
+
+-k knn_accuracy_filename
   Name of the file where you want the k-NN's accuracy data to be saved to.
   Optional tag, but argument required if provided.
   Default is knn-error.out
@@ -61,6 +67,13 @@ Program arguments:
 
 -p
   Flag for writing results to files that are ready to be plotted with gnuplot.
+  Optional tag. Does not accept arguments.
+  Default is not set.
+
+-o
+  Flag for program output. Displays things such as accuracy of each epoch.
+  Redundant to enable if you are also printing to file with -p tag.
+  Useful to enable when doing multiple runs, to not clutter stdout.
   Optional tag. Does not accept arguments.
   Default is not set.
 
