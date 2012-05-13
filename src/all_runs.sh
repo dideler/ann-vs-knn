@@ -96,6 +96,8 @@ function run()
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   run
+else
+  exit 1
 fi
 
 unset run
