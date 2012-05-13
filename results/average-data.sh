@@ -21,5 +21,6 @@
 ./avg.py knn-acc-digits.out
 
 # Plot the averaged data.
+# (Can also use 'gnuplot -persists filename.plt'.)
 ./ann-train-acc.plt
 ./ann-train-err.plt
