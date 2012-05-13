@@ -13,10 +13,12 @@
 #
 # @author ideler.dennis@gmail.com (Dennis Ideler)
 
+set terminal postscript eps color lw 1.5 "Helvetica" 18 # was: lw 15, font-size 20
+set out 'network-accuracy.eps'
 set autoscale  # Scale axes automatically.
 unset log  # Remove any log-scaling.
 unset label  # Remove any previous labels.
-set title "Network Accuracy over Time"
+set title "Average Network Accuracy over Time"
 set xlabel "Time (epochs)"
 set ylabel "Accuracy (% classified correctly)"
 #set xrange [:]
@@ -25,9 +27,6 @@ set grid
 #set label "start of convergence" at 54,32
 #set arrow from 57,30 to 55,22
 #set arrow from 202,20 to 202,11
-plot    "avg_ann_accuracy_digits.dat" using 1:2 title 'ANN Average Accuracy on Digit Recognition' with lines, \
-        "avg_ann_accuracy_faults.dat" using 1:2 title 'ANN Average Accuracy on Faults Diagnosis' with lines, \
-        "avg_ann_accuracy_faults-subset.dat" using 1:2 title 'ANN Average Accuracy on Faults Diagnosis (subset)' with lines
-
-# To plot multiple files, use '\' at the end of the line (with no space behind)
-# and continue with the next file on a new line.
+plot    "avg_ann_accuracy_faults.dat" using 1:2 title 'Faults Diagnosis' with lines, \
+        "avg_ann_accuracy_faults-subset.dat" using 1:2 title 'Faults Diagnosis (subset)' with lines, \
+        "avg_ann_accuracy_digits.dat" using 1:2 title 'Digit Recognition' with lines
