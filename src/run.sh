@@ -17,7 +17,8 @@ SEED="$3"
 RATIO="$4"
 ANN_ERROR="$5"
 ANN_ACCURACY="$6"
-KNN_ACCURACY="$7"
+ANN_TEST_ACCURACY="$7"
+KNN_ACCURACY="$8"
 
-# For verbose output, use the -v tag (warning: running time will be extra long).
-./ann-vs-knn -c $CONF -d $DATA -s $SEED -t $RATIO -e $ANN_ERROR -a $ANN_ACCURACY -k $KNN_ACCURACY -p
+# For verbose output, use the -o and -v tags (warning: running time will increase).
+./ann-vs-knn -c $CONF -d $DATA -s $SEED -t $RATIO -e $ANN_ERROR -a $ANN_ACCURACY -z $ANN_TEST_ACCURACY -k $KNN_ACCURACY -p
