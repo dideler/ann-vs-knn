@@ -19,3 +19,7 @@
 ./avg.py knn-acc-faults.out
 ./avg.py knn-acc-faults-subset.out
 ./avg.py knn-acc-digits.out
+
+# Plot the averaged data.
+./ann-train-acc.plt
+./ann-train-err.plt
