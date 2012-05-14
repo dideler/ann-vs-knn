@@ -5,7 +5,7 @@ set -e
 echo
 echo "(!) Building project and cleaning up..."
 echo
-pushd src/  # To silence pushd and popd, redirect to /dev/null.
+pushd > /dev/null src/
 make all-optimized
 echo
 echo "(!) Build complete."
@@ -16,9 +16,13 @@ echo
 echo "(!) Runs complete."
 echo "(!) Processing results..."
 echo
-popd
-pushd results/
+popd > /dev/null
+pushd > /dev/null results/
 bash average-data.sh
-popd
+popd > /dev/null
+echo
+echo "(!) Results processed."
+echo "    To save the graphs in 'results/' instead of displaying them,"
+echo "    uncomment the 'set terminal' and 'set output' lines in 'results/*.plt'."
 echo
 echo "(!) All done!"
