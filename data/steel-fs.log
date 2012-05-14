@@ -1,0 +1,544 @@
+
+This logfile captures output of FST3 demos to serve as reference
+and for verification of your build functionality. Note that
+not all results can be expected identical. Slight differences are
+permissible due to employed randomization as in demo2 or demo5
+or due to system-specific difference in numeric representation
+accuracy. Nevertheless, the differences should be only marginal.
+Conciderable difference in yielded criterion values may indicate
+incorrect build.
+
+This is the output of demos in FST3 version 3.1.0.beta.
+
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+------------------------ demo11 output -------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+Starting Example 11: Wrapper-based feature selection with Floating Search...
+Opening file: data/steel_27.trn
+Features: 27
+Classes: 7
+  Class 1 size: 158
+  Class 2 size: 190
+  Class 3 size: 391
+  Class 4 size: 72
+  Class 5 size: 55
+  Class 6 size: 402
+  Class 7 size: 673
+Splitting depth: 2
+Reading data to memory...done.
+
+Scaling data (per-feature, over all classes) using Data_Scaler_void()...done.
+
+Feature selection setup:
+Data_Accessor_Splitting() splitters: Data_Splitter_5050() Data_Splitter_CV(3) 
+Data_Accessor_Splitting_Mem(file=data/steel_27.trn)
+Data_Accessor_Splitting_MemTRN()
+SFFS, delta=0  [Search_SFFS() with Sequential_Step_Straight()]
+Criterion_Wrapper() with Clasifier_kNN(k=3)
+
+---------------------------------------
+Starting SFFS, delta=0  [Search_SFFS() with Sequential_Step_Straight()]
+with Criterion: Criterion_Wrapper() with Clasifier_kNN(k=3)
+with initial subset: Subset<n=27, d=0>: empty
+Subset size to be optimized.
+
+new MAXCRIT=0.401418, Subset<n=27, d=1>: 21 
+StopWatch time: 0:00:00:01  (equals 1 seconds)
+
+new subresult[1]=0.401418, Subset<n=27, d=1>: 21 
+
+new MAXCRIT=0.46955, Subset<n=27, d=2>: 10 21 
+StopWatch time: 0:00:00:02  (equals 2 seconds)
+
+new subresult[2]=0.46955, Subset<n=27, d=2>: 10 21 
+
+new MAXCRIT=0.528399, Subset<n=27, d=3>: 10 11 21 
+StopWatch time: 0:00:00:03  (equals 3 seconds)
+
+new subresult[3]=0.528399, Subset<n=27, d=3>: 10 11 21 
+
+new MAXCRIT=0.541837, Subset<n=27, d=4>: 10 11 14 21 
+StopWatch time: 0:00:00:04  (equals 4 seconds)
+
+new subresult[4]=0.541837, Subset<n=27, d=4>: 10 11 14 21 
+
+new subresult[3]=0.536642, Subset<n=27, d=3>: 10 11 14 
+
+new subresult[2]=0.472681, Subset<n=27, d=2>: 10 14 
+
+new MAXCRIT=0.543837, Subset<n=27, d=3>: 10 13 14 
+StopWatch time: 0:00:00:05  (equals 5 seconds)
+
+new subresult[3]=0.543837, Subset<n=27, d=3>: 10 13 14 
+
+new subresult[2]=0.502596, Subset<n=27, d=2>: 13 14 
+
+new MAXCRIT=0.560359, Subset<n=27, d=3>: 11 13 14 
+StopWatch time: 0:00:00:06  (equals 6 seconds)
+
+new subresult[3]=0.560359, Subset<n=27, d=3>: 11 13 14 
+
+new MAXCRIT=0.570679, Subset<n=27, d=4>: 11 13 14 19 
+StopWatch time: 0:00:00:06  (equals 6 seconds)
+
+new subresult[4]=0.570679, Subset<n=27, d=4>: 11 13 14 19 
+
+new MAXCRIT=0.576909, Subset<n=27, d=5>: 11 13 14 19 25 
+StopWatch time: 0:00:00:07  (equals 7 seconds)
+
+new subresult[5]=0.576909, Subset<n=27, d=5>: 11 13 14 19 25 
+
+new MAXCRIT=0.583053, Subset<n=27, d=6>: 11 13 14 15 19 25 
+StopWatch time: 0:00:00:08  (equals 8 seconds)
+
+new subresult[6]=0.583053, Subset<n=27, d=6>: 11 13 14 15 19 25 
+
+new subresult[7]=0.583053, Subset<n=27, d=7>: 11 12 13 14 15 19 25 
+
+new subresult[8]=0.582021, Subset<n=27, d=8>: 11 12 13 14 15 17 19 25 
+
+new subresult[9]=0.565554, Subset<n=27, d=9>: 11 12 13 14 15 17 19 22 25 
+
+new subresult[10]=0.572781, Subset<n=27, d=10>: 11 12 13 14 15 17 19 22 25 26 
+
+new subresult[9]=0.573813, Subset<n=27, d=9>: 11 12 13 14 15 19 22 25 26 
+
+new subresult[11]=0.570698, Subset<n=27, d=11>: 11 12 13 14 15 17 19 20 22 25 26 
+
+new subresult[10]=0.578983, Subset<n=27, d=10>: 11 12 13 14 17 19 20 22 25 26 
+
+new subresult[9]=0.578983, Subset<n=27, d=9>: 11 12 13 14 19 20 22 25 26 
+
+new subresult[12]=0.56041, Subset<n=27, d=12>: 11 12 13 14 15 17 18 19 20 22 25 26 
+
+new subresult[13]=0.564576, Subset<n=27, d=13>: 11 12 13 14 15 16 17 18 19 20 22 25 26 
+
+new subresult[12]=0.567666, Subset<n=27, d=12>: 11 12 13 14 15 16 17 18 20 22 25 26 
+
+new subresult[13]=0.566656, Subset<n=27, d=13>: 11 12 13 14 15 16 17 18 20 22 24 25 26 
+
+new subresult[12]=0.569692, Subset<n=27, d=12>: 11 12 13 15 16 17 18 20 22 24 25 26 
+
+new subresult[11]=0.570737, Subset<n=27, d=11>: 11 12 13 16 17 18 20 22 24 25 26 
+
+new subresult[14]=0.564586, Subset<n=27, d=14>: 11 12 13 14 15 16 17 18 19 20 22 24 25 26 
+
+new subresult[13]=0.570772, Subset<n=27, d=13>: 11 12 13 14 15 16 17 18 19 22 24 25 26 
+
+new subresult[12]=0.570772, Subset<n=27, d=12>: 11 12 13 14 15 16 18 19 22 24 25 26 
+
+new subresult[14]=0.567666, Subset<n=27, d=14>: 11 12 13 14 15 16 17 18 19 22 23 24 25 26 
+
+new subresult[15]=0.563548, Subset<n=27, d=15>: 11 12 13 14 15 16 17 18 19 20 22 23 24 25 26 
+
+new subresult[16]=0.549093, Subset<n=27, d=16>: 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[17]=0.51913, Subset<n=27, d=17>: 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[18]=0.53353, Subset<n=27, d=18>: 8 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[17]=0.537665, Subset<n=27, d=17>: 8 10 11 12 13 14 15 16 17 18 19 20 21 22 23 25 26 
+
+new subresult[18]=0.542789, Subset<n=27, d=18>: 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 25 26 
+
+new subresult[17]=0.544853, Subset<n=27, d=17>: 8 9 10 11 12 13 14 15 16 17 18 19 20 22 23 25 26 
+
+new subresult[18]=0.543825, Subset<n=27, d=18>: 8 9 10 11 12 13 14 15 16 17 18 19 20 22 23 24 25 26 
+
+new subresult[17]=0.54486, Subset<n=27, d=17>: 8 9 10 11 12 13 14 15 17 18 19 20 22 23 24 25 26 
+
+new subresult[19]=0.542789, Subset<n=27, d=19>: 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[20]=0.507743, Subset<n=27, d=20>: 0 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[21]=0.504647, Subset<n=27, d=21>: 0 1 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[20]=0.510817, Subset<n=27, d=20>: 0 1 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[22]=0.487125, Subset<n=27, d=22>: 0 1 5 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[23]=0.477812, Subset<n=27, d=23>: 0 1 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[24]=0.475748, Subset<n=27, d=24>: 0 1 4 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[23]=0.480905, Subset<n=27, d=23>: 0 1 4 5 6 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[25]=0.430273, Subset<n=27, d=25>: 0 1 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[26]=0.368433, Subset<n=27, d=26>: 0 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[27]=0.360138, Subset<n=27, d=27>: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+.......................................
+Search_SFFS() search finished. StopWatch time: 0:00:01:02  (equals 62 seconds)
+Search result: 
+Subset<n=27, d=6>: 11 13 14 15 19 25 
+Criterion value: 0.583053
+
+
+Search result: 
+Subset<n=27, d=6>: 11 13 14 15 19 25 
+Criterion value=0.583053
+
+Validated 3-NN accuracy=0.503086
+
+Best recorded solution for subset size:
+1: val=0.401418, Subset<n=27, d=1>: 21 
+2: val=0.502596, Subset<n=27, d=2>: 13 14 
+3: val=0.560359, Subset<n=27, d=3>: 11 13 14 
+4: val=0.570679, Subset<n=27, d=4>: 11 13 14 19 
+5: val=0.576909, Subset<n=27, d=5>: 11 13 14 19 25 
+6: val=0.583053, Subset<n=27, d=6>: 11 13 14 15 19 25 
+7: val=0.583053, Subset<n=27, d=7>: 11 12 13 14 15 19 25 
+8: val=0.582021, Subset<n=27, d=8>: 11 12 13 14 15 17 19 25 
+9: val=0.578983, Subset<n=27, d=9>: 11 12 13 14 19 20 22 25 26 
+10: val=0.578983, Subset<n=27, d=10>: 11 12 13 14 17 19 20 22 25 26 
+11: val=0.570737, Subset<n=27, d=11>: 11 12 13 16 17 18 20 22 24 25 26 
+12: val=0.570772, Subset<n=27, d=12>: 11 12 13 14 15 16 18 19 22 24 25 26 
+13: val=0.570772, Subset<n=27, d=13>: 11 12 13 14 15 16 17 18 19 22 24 25 26 
+14: val=0.567666, Subset<n=27, d=14>: 11 12 13 14 15 16 17 18 19 22 23 24 25 26 
+15: val=0.563548, Subset<n=27, d=15>: 11 12 13 14 15 16 17 18 19 20 22 23 24 25 26 
+16: val=0.549093, Subset<n=27, d=16>: 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+17: val=0.54486, Subset<n=27, d=17>: 8 9 10 11 12 13 14 15 17 18 19 20 22 23 24 25 26 
+18: val=0.543825, Subset<n=27, d=18>: 8 9 10 11 12 13 14 15 16 17 18 19 20 22 23 24 25 26 
+19: val=0.542789, Subset<n=27, d=19>: 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+20: val=0.510817, Subset<n=27, d=20>: 0 1 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+21: val=0.504647, Subset<n=27, d=21>: 0 1 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+22: val=0.487125, Subset<n=27, d=22>: 0 1 5 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+23: val=0.480905, Subset<n=27, d=23>: 0 1 4 5 6 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+24: val=0.475748, Subset<n=27, d=24>: 0 1 4 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+25: val=0.430273, Subset<n=27, d=25>: 0 1 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+26: val=0.368433, Subset<n=27, d=26>: 0 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+27: val=0.360138, Subset<n=27, d=27>: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+------------------------ demo20 output -------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+Starting Example 20: Retreating Sequential Search...
+Opening file: data/steel_27.trn
+Features: 27
+Classes: 7
+  Class 1 size: 158
+  Class 2 size: 190
+  Class 3 size: 391
+  Class 4 size: 72
+  Class 5 size: 55
+  Class 6 size: 402
+  Class 7 size: 673
+Splitting depth: 2
+Reading data to memory...done.
+
+Scaling data (per-feature, over all classes) using Data_Scaler_void()...done.
+
+Feature selection setup:
+Data_Accessor_Splitting() splitters: Data_Splitter_5050() Data_Splitter_Leave1Out() 
+Data_Accessor_Splitting_Mem(file=data/steel_27.trn)
+Data_Accessor_Splitting_MemTRN()
+SFRS, delta=0  [Search_SFRS() with Sequential_Step_Straight()]
+Criterion_Wrapper() with Clasifier_kNN(k=3)
+
+---------------------------------------
+Starting SFRS, delta=0  [Search_SFRS() with Sequential_Step_Straight()]
+with Criterion: Criterion_Wrapper() with Clasifier_kNN(k=3)
+with initial subset: Subset<n=27, d=0>: empty
+Subset size to be optimized.
+
+new MAXCRIT=0.452012, Subset<n=27, d=1>: 7 
+StopWatch time: 0:00:00:01  (equals 1 seconds)
+
+new subresult[1]=0.452012, Subset<n=27, d=1>: 7 
+
+new MAXCRIT=0.488132, Subset<n=27, d=2>: 7 10 
+StopWatch time: 0:00:00:02  (equals 2 seconds)
+
+new subresult[2]=0.488132, Subset<n=27, d=2>: 7 10 
+
+new MAXCRIT=0.491228, Subset<n=27, d=3>: 7 9 10 
+StopWatch time: 0:00:00:03  (equals 3 seconds)
+
+new subresult[3]=0.491228, Subset<n=27, d=3>: 7 9 10 
+
+new MAXCRIT=0.568627, Subset<n=27, d=2>: 9 10 
+StopWatch time: 0:00:00:03  (equals 3 seconds)
+
+new subresult[2]=0.568627, Subset<n=27, d=2>: 9 10 
+
+new MAXCRIT=0.71517, Subset<n=27, d=3>: 9 10 13 
+StopWatch time: 0:00:00:04  (equals 4 seconds)
+
+new subresult[3]=0.71517, Subset<n=27, d=3>: 9 10 13 
+
+new subresult[2]=0.596491, Subset<n=27, d=2>: 10 13 
+
+new MAXCRIT=0.728586, Subset<n=27, d=4>: 8 9 10 13 
+StopWatch time: 0:00:00:06  (equals 6 seconds)
+
+new subresult[4]=0.728586, Subset<n=27, d=4>: 8 9 10 13 
+
+new MAXCRIT=0.733746, Subset<n=27, d=5>: 6 8 9 10 13 
+StopWatch time: 0:00:00:07  (equals 7 seconds)
+
+new subresult[5]=0.733746, Subset<n=27, d=5>: 6 8 9 10 13 
+
+new MAXCRIT=0.749226, Subset<n=27, d=6>: 5 6 8 9 10 13 
+StopWatch time: 0:00:00:09  (equals 9 seconds)
+
+new subresult[6]=0.749226, Subset<n=27, d=6>: 5 6 8 9 10 13 
+
+new subresult[5]=0.743034, Subset<n=27, d=5>: 5 6 9 10 13 
+
+new subresult[7]=0.749226, Subset<n=27, d=7>: 5 6 8 9 10 11 13 
+
+new subresult[8]=0.749226, Subset<n=27, d=8>: 5 6 8 9 10 11 12 13 
+
+new subresult[9]=0.749226, Subset<n=27, d=9>: 5 6 8 9 10 11 12 13 19 
+
+new subresult[10]=0.749226, Subset<n=27, d=10>: 5 6 8 9 10 11 12 13 15 19 
+
+new subresult[11]=0.749226, Subset<n=27, d=11>: 5 6 8 9 10 11 12 13 15 17 19 
+
+new subresult[12]=0.749226, Subset<n=27, d=12>: 5 6 8 9 10 11 12 13 15 17 19 24 
+
+new subresult[13]=0.749226, Subset<n=27, d=13>: 5 6 8 9 10 11 12 13 15 16 17 19 24 
+
+new subresult[14]=0.749226, Subset<n=27, d=14>: 5 6 8 9 10 11 12 13 15 16 17 19 20 24 
+
+new subresult[15]=0.749226, Subset<n=27, d=15>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 24 
+
+new subresult[16]=0.749226, Subset<n=27, d=16>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 24 25 
+
+new subresult[17]=0.749226, Subset<n=27, d=17>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 24 25 26 
+
+new subresult[18]=0.749226, Subset<n=27, d=18>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 23 24 25 26 
+
+new subresult[19]=0.748194, Subset<n=27, d=19>: 5 6 8 9 10 11 12 13 14 15 16 17 19 20 22 23 24 25 26 
+
+new subresult[20]=0.748194, Subset<n=27, d=20>: 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 22 23 24 25 26 
+
+new subresult[21]=0.748194, Subset<n=27, d=21>: 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[22]=0.671827, Subset<n=27, d=22>: 1 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[23]=0.646027, Subset<n=27, d=23>: 0 1 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[24]=0.615067, Subset<n=27, d=24>: 0 1 4 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[25]=0.4871, Subset<n=27, d=25>: 0 1 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[26]=0.468524, Subset<n=27, d=26>: 0 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[27]=0.4613, Subset<n=27, d=27>: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+.......................................
+Search_SFRS() search finished. StopWatch time: 0:00:03:45  (equals 225 seconds)
+Search result: 
+Subset<n=27, d=6>: 5 6 8 9 10 13 
+Criterion value: 0.749226
+
+Validated 3-NN accuracy=0.514403
+
+Best recorded solution for subset size:
+1: val=0.452012, Subset<n=27, d=1>: 7 
+2: val=0.596491, Subset<n=27, d=2>: 10 13 
+3: val=0.71517, Subset<n=27, d=3>: 9 10 13 
+4: val=0.728586, Subset<n=27, d=4>: 8 9 10 13 
+5: val=0.743034, Subset<n=27, d=5>: 5 6 9 10 13 
+6: val=0.749226, Subset<n=27, d=6>: 5 6 8 9 10 13 
+7: val=0.749226, Subset<n=27, d=7>: 5 6 8 9 10 11 13 
+8: val=0.749226, Subset<n=27, d=8>: 5 6 8 9 10 11 12 13 
+9: val=0.749226, Subset<n=27, d=9>: 5 6 8 9 10 11 12 13 19 
+10: val=0.749226, Subset<n=27, d=10>: 5 6 8 9 10 11 12 13 15 19 
+11: val=0.749226, Subset<n=27, d=11>: 5 6 8 9 10 11 12 13 15 17 19 
+12: val=0.749226, Subset<n=27, d=12>: 5 6 8 9 10 11 12 13 15 17 19 24 
+13: val=0.749226, Subset<n=27, d=13>: 5 6 8 9 10 11 12 13 15 16 17 19 24 
+14: val=0.749226, Subset<n=27, d=14>: 5 6 8 9 10 11 12 13 15 16 17 19 20 24 
+15: val=0.749226, Subset<n=27, d=15>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 24 
+16: val=0.749226, Subset<n=27, d=16>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 24 25 
+17: val=0.749226, Subset<n=27, d=17>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 24 25 26 
+18: val=0.749226, Subset<n=27, d=18>: 5 6 8 9 10 11 12 13 15 16 17 19 20 22 23 24 25 26 
+19: val=0.748194, Subset<n=27, d=19>: 5 6 8 9 10 11 12 13 14 15 16 17 19 20 22 23 24 25 26 
+20: val=0.748194, Subset<n=27, d=20>: 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 22 23 24 25 26 
+21: val=0.748194, Subset<n=27, d=21>: 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+22: val=0.671827, Subset<n=27, d=22>: 1 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+23: val=0.646027, Subset<n=27, d=23>: 0 1 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+24: val=0.615067, Subset<n=27, d=24>: 0 1 4 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+25: val=0.4871, Subset<n=27, d=25>: 0 1 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+26: val=0.468524, Subset<n=27, d=26>: 0 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+27: val=0.4613, Subset<n=27, d=27>: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+------------------------ demo21 output -------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+Starting Example 21: Generalized sequential feature subset search...
+Opening file: data/steel_27.trn
+Features: 27
+Classes: 7
+  Class 1 size: 158
+  Class 2 size: 190
+  Class 3 size: 391
+  Class 4 size: 72
+  Class 5 size: 55
+  Class 6 size: 402
+  Class 7 size: 673
+Splitting depth: 2
+Reading data to memory...done.
+
+Scaling data (per-feature, over all classes) using Data_Scaler_void()...done.
+
+Feature selection setup:
+Data_Accessor_Splitting() splitters: Data_Splitter_5050() Data_Splitter_CV(3) 
+Data_Accessor_Splitting_Mem(file=data/steel_27.trn)
+Data_Accessor_Splitting_MemTRN()
+(G)SFFS, G=2, delta=0  [Search_SFFS() with Sequential_Step_Straight()]
+Criterion_Wrapper() with Clasifier_kNN(k=5)
+
+---------------------------------------
+Starting (G)SFFS, G=2, delta=0  [Search_SFFS() with Sequential_Step_Straight()]
+with Criterion: Criterion_Wrapper() with Clasifier_kNN(k=5)
+with initial subset: Subset<n=27, d=0>: empty
+Subset size to be optimized.
+
+new MAXCRIT=0.536629, Subset<n=27, d=2>: 0 10 
+StopWatch time: 0:00:00:15  (equals 15 seconds)
+
+new subresult[2]=0.536629, Subset<n=27, d=2>: 0 10 
+
+new MAXCRIT=0.552103, Subset<n=27, d=4>: 0 9 10 11 
+StopWatch time: 0:00:00:28  (equals 28 seconds)
+
+new subresult[4]=0.552103, Subset<n=27, d=4>: 0 9 10 11 
+
+new subresult[6]=0.552103, Subset<n=27, d=6>: 0 9 10 11 12 14 
+
+new subresult[8]=0.552103, Subset<n=27, d=8>: 0 9 10 11 12 14 15 16 
+
+new subresult[10]=0.552103, Subset<n=27, d=10>: 0 9 10 11 12 14 15 16 17 18 
+
+new subresult[12]=0.552103, Subset<n=27, d=12>: 0 9 10 11 12 14 15 16 17 18 19 20 
+
+new subresult[14]=0.552103, Subset<n=27, d=14>: 0 9 10 11 12 14 15 16 17 18 19 20 21 22 
+
+new subresult[16]=0.552103, Subset<n=27, d=16>: 0 9 10 11 12 14 15 16 17 18 19 20 21 22 25 26 
+
+new subresult[18]=0.551071, Subset<n=27, d=18>: 0 9 10 11 12 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[20]=0.542812, Subset<n=27, d=20>: 0 1 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[22]=0.488196, Subset<n=27, d=22>: 0 1 5 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[24]=0.480901, Subset<n=27, d=24>: 0 1 4 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[22]=0.493321, Subset<n=27, d=22>: 0 1 5 6 8 9 10 11 12 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+new subresult[26]=0.36843, Subset<n=27, d=26>: 0 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+.......................................
+Search_SFFS() search finished. StopWatch time: 0:00:03:20  (equals 200 seconds)
+Search result: 
+Subset<n=27, d=4>: 0 9 10 11 
+Criterion value: 0.552103
+
+Validated 5-NN accuracy=0.429012
+
+Best recorded solution for subset size:
+2: val=0.536629, Subset<n=27, d=2>: 0 10 
+4: val=0.552103, Subset<n=27, d=4>: 0 9 10 11 
+6: val=0.552103, Subset<n=27, d=6>: 0 9 10 11 12 14 
+8: val=0.552103, Subset<n=27, d=8>: 0 9 10 11 12 14 15 16 
+10: val=0.552103, Subset<n=27, d=10>: 0 9 10 11 12 14 15 16 17 18 
+12: val=0.552103, Subset<n=27, d=12>: 0 9 10 11 12 14 15 16 17 18 19 20 
+14: val=0.552103, Subset<n=27, d=14>: 0 9 10 11 12 14 15 16 17 18 19 20 21 22 
+16: val=0.552103, Subset<n=27, d=16>: 0 9 10 11 12 14 15 16 17 18 19 20 21 22 25 26 
+18: val=0.551071, Subset<n=27, d=18>: 0 9 10 11 12 14 15 16 17 18 19 20 21 22 23 24 25 26 
+20: val=0.542812, Subset<n=27, d=20>: 0 1 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+22: val=0.493321, Subset<n=27, d=22>: 0 1 5 6 8 9 10 11 12 14 15 16 17 18 19 20 21 22 23 24 25 26 
+24: val=0.480901, Subset<n=27, d=24>: 0 1 4 5 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+26: val=0.36843, Subset<n=27, d=26>: 0 1 2 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+------------------------ demo24 output -------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+Starting Example 24: Monte Carlo - random feature subset search...
+Opening file: data/steel_27.trn
+Features: 27
+Classes: 7
+  Class 1 size: 158
+  Class 2 size: 190
+  Class 3 size: 391
+  Class 4 size: 72
+  Class 5 size: 55
+  Class 6 size: 402
+  Class 7 size: 673
+Splitting depth: 2
+Reading data to memory...done.
+
+Scaling data (per-feature, over all classes) using Data_Scaler_void()...done.
+
+Feature selection setup:
+Data_Accessor_Splitting() splitters: Data_Splitter_5050() Data_Splitter_CV(3) 
+Data_Accessor_Splitting_Mem(file=data/steel_27.trn)
+Data_Accessor_Splitting_MemTRN()
+Random search  [Search_Monte_Carlo(seconds=100, d_from=4, d_to=10)]
+Criterion_Wrapper() with Clasifier_kNN(k=3)
+
+---------------------------------------
+Starting Random search  [Search_Monte_Carlo(seconds=100, d_from=4, d_to=10)]
+with Criterion: Criterion_Wrapper() with Clasifier_kNN(k=3)
+Subset size to be optimized.
+
+new MAXCRIT=0.423078, trial=0, Subset<n=27, d=5>: 14 16 18 25 26 
+StopWatch time: 0:00:00:00  (equals 0 seconds)
+
+new MAXCRIT=0.440618, trial=1, Subset<n=27, d=7>: 4 5 6 7 10 12 23 
+StopWatch time: 0:00:00:00  (equals 0 seconds)
+
+new MAXCRIT=0.481953, trial=3, Subset<n=27, d=9>: 0 5 6 10 11 12 18 22 26 
+StopWatch time: 0:00:00:00  (equals 0 seconds)
+
+new MAXCRIT=0.514929, trial=36, Subset<n=27, d=7>: 11 12 15 20 21 22 25 
+StopWatch time: 0:00:00:01  (equals 1 seconds)
+
+new MAXCRIT=0.521101, trial=78, Subset<n=27, d=10>: 0 8 9 10 16 17 18 19 25 26 
+StopWatch time: 0:00:00:02  (equals 2 seconds)
+
+new MAXCRIT=0.53662, trial=120, Subset<n=27, d=6>: 11 12 14 15 18 24 
+StopWatch time: 0:00:00:03  (equals 3 seconds)
+
+new MAXCRIT=0.544857, trial=281, Subset<n=27, d=8>: 8 9 10 11 12 13 14 21 
+StopWatch time: 0:00:00:08  (equals 8 seconds)
+
+new MAXCRIT=0.565615, trial=674, Subset<n=27, d=6>: 11 12 13 14 15 16 
+StopWatch time: 0:00:00:19  (equals 19 seconds)
+
+new MAXCRIT=0.583053, trial=3303, Subset<n=27, d=7>: 11 12 13 14 15 19 25 
+StopWatch time: 0:00:01:35  (equals 95 seconds)
+
+.......................................
+Search_Monte_Carlo() search finished after 3500 trials. StopWatch time: 0:00:01:41  (equals 101 seconds)
+Search result: 
+Subset<n=27, d=7>: 11 12 13 14 15 19 25 
+Criterion value: 0.583053
+
+Validated 3-NN accuracy=0.503086
+
+
+
+----------------------------------------------------------------
+All demos finished.
+
