@@ -11,4 +11,4 @@
 
 ### Instructions
 
-    $ bash automate.sh  # Builds, runs experiments, and processes the results.
+    $ bash automate.sh  # Builds the project, runs experiments, and processes the results.
