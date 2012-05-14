@@ -13,8 +13,8 @@
 #
 # @author ideler.dennis@gmail.com (Dennis Ideler)
 
-set terminal postscript eps color lw 1.5 "Helvetica" 18 # was: lw 15, font-size 20
-set out 'network-accuracy.eps'
+#set terminal postscript eps color lw 1.5 "Helvetica" 18
+#set out 'network-accuracy.eps'
 set autoscale  # Scale axes automatically.
 unset log  # Remove any log-scaling.
 unset label  # Remove any previous labels.
