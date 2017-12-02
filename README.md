@@ -12,3 +12,7 @@
 ### Instructions
 
     $ bash automate.sh  # Builds the project, runs experiments, and processes the results.
+
+### Report
+
+The hypothesis, experiment design, results, and conclusion can be read in the paper at [docs/report.pdf](docs/report.pdf)
